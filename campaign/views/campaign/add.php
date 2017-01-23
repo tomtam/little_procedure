@@ -92,12 +92,12 @@
 <script type="text/javascript" src="/js/My97DatePicker/WdatePicker.js"></script>
 <script>
 	$(document).ready(function(){
-		function addImageInput(obj){
-			$(obj).parent().append("<br>" + '<input type="file" name="campImg[]">&nbsp;&nbsp;&nbsp;<a href="#"  onclick="addImageInput(this);" style="cursor: pointer;">再添加一张</a>');
-			$(obj).remove();
-		};
 		$("#campAddButton").click(function(){
 			$("form").submit();
 		});
 	});
+	function addImageInput(obj){
+		$(obj).parent().append("<br>" + '<input type="file" name="campImg[]">&nbsp;&nbsp;&nbsp;<a href="#"  onclick="addImageInput(this);" style="cursor: pointer;">再添加一张</a>');
+		$(obj).remove();
+	};
 </script>
