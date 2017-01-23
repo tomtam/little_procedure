@@ -12,7 +12,6 @@ use campaign\models\Login;
 </head>
 <body>
     <div class="header">
-      <div class="h-logo"><a href="list.html" title="老王的管理后台"><img src="/images/qaup_logo.png" width="130" height="40"  alt=""/></a></div>
       <div class="h-nav">
           <div class="h-outer">
           	<div class="link">
