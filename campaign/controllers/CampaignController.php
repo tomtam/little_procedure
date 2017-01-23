@@ -215,7 +215,7 @@ class CampaignController extends BaseController{
             $message = $e->getMessage()."---".$e->getTraceAsString();
         }
         
-        if(!$result_insert && isset($message)){
+        if(!$result_insert || isset($message)){
             Yii::info("-----------添加活动报错:------".$message, 'camp');
             return Code::errorExit(Code::ERROR_CAMP_INSERT);
         }
@@ -400,7 +400,7 @@ class CampaignController extends BaseController{
             $message = $e->getMessage()."---".$e->getTraceAsString();
         }
         
-        if(!$result_update && isset($message)){
+        if(!$result_update || isset($message)){
             Yii::info("-----------更新活动报错:------".$message, 'camp');
             return Code::errorExit(Code::ERROR_CAMP_UPDATE);
         }

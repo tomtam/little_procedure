@@ -61,7 +61,7 @@ class Order extends ActiveRecord{
     * @desc:   更新订单列表里的title
     */
     public function updateCampTitle($title, $campId){
-        $sql = "update ".self::tableName()." set campTitle='{$title}' where campId=".$campId;
+        $sql = "update campaign_order set campTitle='{$title}' where campId=".$campId;
         $raw = self::getDb()->createCommand($sql)->execute();
         if(!$raw){
             Yii::info("-----更新活动数据来更新order列表里的title数据：".$sql, 'camp');

@@ -93,8 +93,8 @@
 <script>
 	$(document).ready(function(){
 		$(".addImageInput").click(function(){
-			$(this).parent().append("<br>" + '<input type="file" name="campImg[]">&nbsp;&nbsp;&nbsp;<a class="addImageInput" style="cursor: pointer;">再添加一张</a>');
-			$(this).remove();
+			$(obj).parent().append("<br>" + '<input type="file" name="campImg[]">&nbsp;&nbsp;&nbsp;<a href="#"  onclick="addImageInput(this);" style="cursor: pointer;">再添加一张</a>');
+			$(obj).remove();
 		});
 		$("#campAddButton").click(function(){
 			$("form").submit();
