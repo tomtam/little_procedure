@@ -11,6 +11,7 @@ class BaseController extends Controller{
         //判断是否登陆
         if( !Yii::$app->session[User::USER_LOGIN_STATUS_KEY] ){
             $this->redirect("/login");
+            Yii::$app->response->send();
         }
         $this->username = User::USER_ADMIN_USERNAME;
         return true;
