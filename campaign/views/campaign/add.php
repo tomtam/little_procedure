@@ -61,7 +61,7 @@
                 <tr>
                 	<td align="right"><span class="require">* </span>图片：</td>
                 	<td align="left">
-                		<input type="file" name="campImg[]">&nbsp;&nbsp;&nbsp;<a class="addImageInput" style="cursor: pointer;">再添加一张</a>
+                		<input type="file" name="campImg[]">&nbsp;&nbsp;&nbsp;<a class="addImageInput" href="#" onclick="addImageInput(this);" style="cursor: pointer;">再添加一张</a>
                 	</td>
                 </tr>
                 <tr>
@@ -82,7 +82,7 @@
                 </tr>
                 <tr>
                   <td align="right">&nbsp;</td>
-                  <td align="left"><a class="btn btn-large" id="campAddButton">添加</a>  <a class="btn btn-cancel btn-large">取消</a> </td>
+                  <td align="left"><a class="btn btn-large" id="campAddButton">添加</a>  <a class="btn btn-cancel btn-large" onclick="history.go(-1);">取消</a> </td>
                 </tr>
               </table>
              </form>
@@ -92,10 +92,10 @@
 <script type="text/javascript" src="/js/My97DatePicker/WdatePicker.js"></script>
 <script>
 	$(document).ready(function(){
-		$(".addImageInput").click(function(){
+		function addImageInput(obj){
 			$(obj).parent().append("<br>" + '<input type="file" name="campImg[]">&nbsp;&nbsp;&nbsp;<a href="#"  onclick="addImageInput(this);" style="cursor: pointer;">再添加一张</a>');
 			$(obj).remove();
-		});
+		};
 		$("#campAddButton").click(function(){
 			$("form").submit();
 		});

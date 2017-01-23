@@ -97,7 +97,7 @@
                 </tr>
                 <tr>
                   <td align="right">&nbsp;</td>
-                  <td align="left"><a class="btn btn-large" id="campAddButton">添加</a>  <a class="btn btn-cancel btn-large">取消</a> </td>
+                  <td align="left"><a class="btn btn-large" id="campAddButton">修改</a>  <a class="btn btn-cancel btn-large" onclick="history.go(-1);">取消</a> </td>
                 </tr>
               </table>
              </form>
@@ -115,36 +115,4 @@
 		$(obj).parent().append("<br>" + '<input type="file" name="campImg[]">&nbsp;&nbsp;&nbsp;<a href="#"  onclick="addImageInput(this);" style="cursor: pointer;">再添加一张</a>');
 		$(obj).remove();
 	};
-
-	function delImg(id){
-		$.ajax({
-		    url:'/campaign/img-del',
-		    type:'POST', 
-		    async:true,    //或false,是否异步
-		    data:{
-		        id:id
-		    },
-		    timeout:5000,    //超时时间
-		    dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
-		    success:function(data,textStatus,jqXHR){
-			    if(data.code == 200){
-					location.reload();
-				}else{
-					alert(data.info);
-					return false;
-				}
-		        console.log(data)
-		        console.log(textStatus)
-		        console.log(jqXHR)
-		    },
-		    error:function(xhr,textStatus){
-		        console.log('错误')
-		        console.log(xhr)
-		        console.log(textStatus)
-		    },
-		    complete:function(){
-		        console.log('结束')
-		    }
-		})
-	}
 </script>
