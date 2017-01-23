@@ -156,6 +156,7 @@ class CampaignController extends BaseController{
                 $model_content = new Content();
                 $model_content->campId = $result_insert_id;
                 $model_content->fieldName = Content::FIELD_IMAGE;
+                $model_content->fieldTitle= "图片";
                 $model_content->content = $img;
                 $model_content->save();
             }
@@ -348,6 +349,7 @@ class CampaignController extends BaseController{
                     $model_content = new Content();
                     $model_content->campId = $id;
                     $model_content->fieldName = Content::FIELD_IMAGE;
+                    $model_content->fieldTitle= "图片";
                     $model_content->content = $img;
                     $model_content->save();
                 }
