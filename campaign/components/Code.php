@@ -23,7 +23,7 @@ class Code {
 	const ERROR_VERIFY_CHECK = "5001";
 	
 	const ERROR_PARAM_PARTIAL = "6001";
-	const ERROR_PARAM_CHECK = "6001";
+	const ERROR_PARAM_CHECK = "7001";
 	
 	public static $arr_code_status = array(
 	    self::SUCC => '操作成功',
