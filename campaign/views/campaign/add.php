@@ -59,6 +59,12 @@
                   </td>
                 </tr>
                 <tr>
+                	<td align="right"><span class="require">* </span>头像图片：</td>
+                	<td align="left">
+                		<input type="file" name="headImg">&nbsp;&nbsp;&nbsp;
+                	</td>
+                </tr>
+                <tr>
                 	<td align="right"><span class="require">* </span>图片：</td>
                 	<td align="left">
                 		<input type="file" name="campImg[]">&nbsp;&nbsp;&nbsp;<a class="addImageInput" href="#" onclick="addImageInput(this);" style="cursor: pointer;">再添加一张</a>

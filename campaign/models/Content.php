@@ -10,6 +10,7 @@ class Content extends ActiveRecord{
      * @var unknown
      */
     const FIELD_IMAGE = "image";
+    const FIELD_HEAD_IMAGE = "image_head";
     /**
      * 线路介绍的字段名称
      * @var unknown

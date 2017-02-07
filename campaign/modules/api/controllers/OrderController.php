@@ -6,6 +6,7 @@ use yii\web\Controller;
 use campaign\models\Order;
 use campaign\models\Campaign;
 use campaign\components\Code;
+use campaign\models\Content;
 
 class OrderController extends Controller{
     private $__perNum = 10;
@@ -79,8 +80,15 @@ class OrderController extends Controller{
         //处理数据
         foreach ($list as $key=>$order){
             $campInfo = Campaign::findOne(['id' => $order['campId']]);
-            $list[$key]['title'] = $campInfo['title'];
+            $headImg = Content::find()
+                                ->where(['campId'=>$campInfo['id'], 'fieldName'=>Content::FIELD_HEAD_IMAGE])
+                                ->asArray()
+                                ->one();
             
+            $list[$key]['campInfo'] = array(
+                'title' => $campInfo['title'],
+                'headImg' => $headImg['content'],
+            );
             $list[$key]['status'] = $orderStatus = Order::processStatus($campInfo);
             $list[$key]['statusMark'] = Order::$arr_order_status[$orderStatus];
             

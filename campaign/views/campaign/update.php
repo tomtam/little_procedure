@@ -80,6 +80,18 @@
                 	</td>
                 </tr>
                 <tr>
+                	<td align="right"><span class="require">* </span>头像图片：</td>
+                	<td align="left">
+                		<img src="/upload/<?php echo $info['headImg']['content'];?>" style="max-width:100px;"></br>
+                	</td>
+                </tr>
+                <tr>
+                	<td align="right"><span class="require">* </span>更新头像：</td>
+                	<td align="left">
+                		<input type="file" name="headImg">&nbsp;&nbsp;&nbsp;
+                	</td>
+                </tr>
+                <tr>
                   <td align="right"><span class="require">* </span>线路介绍：</td>
                   <td align="left"><textarea name="lineIntroduction" id="lineIntroduction"/><?php echo $info['lineIntroduction'];?></textarea>
                 </tr>

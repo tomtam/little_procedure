@@ -134,6 +134,18 @@ class CampaignController extends BaseController{
             Yii::info("------上传图片失败：-----".print_r($uploadImg->getErrorMsg(), true), 'camp');
             return Code::errorExit(Code::ERROR_IMAGE_UPLOAD);
         }
+        //上传图片
+        $uploadImg = new UploadImg();
+        $path = dirname(__FILE__). DIRECTORY_SEPARATOR;
+        $path .= ".." . DIRECTORY_SEPARATOR;
+        $path .= "web" .DIRECTORY_SEPARATOR. "upload";
+        $uploadImg->set("path", $path);
+        $uploadImg->upload('headImg');
+        $headImg = $uploadImg->getFileName();
+        if(!$headImg){
+            Yii::info("------上传头像图片失败：-----".print_r($uploadImg->getErrorMsg(), true), 'camp');
+            return Code::errorExit(Code::ERROR_IMAGE_UPLOAD);
+        }
         $tx = Campaign::getDb()->beginTransaction();
         try{
             $model_camp = new Campaign();
@@ -160,6 +172,14 @@ class CampaignController extends BaseController{
                 $model_content->content = $img;
                 $model_content->save();
             }
+            //上传头像的url
+            $model_content = new Content();
+            $model_content->campId = $result_insert_id;
+            $model_content->fieldName = Content::FIELD_HEAD_IMAGE;
+            $model_content->fieldTitle= "头像";
+            $model_content->content = $headImg;
+            $model_content->save();
+            
             if(Yii::$app->request->post('lineIntroduction')){
                 $model_content = new Content();
                 $model_content->campId = $result_insert_id;
@@ -255,7 +275,10 @@ class CampaignController extends BaseController{
                                 ->where(['campId'=>$info['id'], 'fieldName'=>Content::FIELD_IMAGE])
                                 ->asArray()
                                 ->all();
-        
+        $info['headImg'] = Content::find()
+                                ->where(['campId'=>$info['id'], 'fieldName'=>Content::FIELD_HEAD_IMAGE])
+                                ->asArray()
+                                ->one();
         $res = Content::find()->where(['campId'=>$info['id'], 'fieldName'=>Content::FIELD_EXPENSE_EXPLANATION])->asArray()->one();
         $info[Content::FIELD_EXPENSE_EXPLANATION] = $res['content'];
         $res = Content::find()->where(['campId'=>$info['id'], 'fieldName'=>Content::FIELD_lINE_INTRODUCTION])->asArray()->one();
@@ -328,6 +351,19 @@ class CampaignController extends BaseController{
                 return Code::errorExit(Code::ERROR_IMAGE_UPLOAD);
             }
         }
+        if(count($_FILES['headImg']['name']) && $_FILES['headImg']['name']){
+            $uploadImg = new UploadImg();
+            $path = dirname(__FILE__). DIRECTORY_SEPARATOR;
+            $path .= ".." . DIRECTORY_SEPARATOR;
+            $path .= "web" .DIRECTORY_SEPARATOR. "upload";
+            $uploadImg->set("path", $path);
+            $uploadImg->upload('headImg');
+            $headImg = $uploadImg->getFileName();
+            if(!$headImg){
+                Yii::info("------上传头像图片失败：-----".print_r($uploadImg->getErrorMsg(), true), 'camp');
+                return Code::errorExit(Code::ERROR_IMAGE_UPLOAD);
+            }
+        }
         $tx = Campaign::getDb()->beginTransaction();
         try{
             $model_camp = Campaign::findOne(['id'=>$id]);
@@ -353,6 +389,11 @@ class CampaignController extends BaseController{
                     $model_content->content = $img;
                     $model_content->save();
                 }
+            }
+            if(isset($headImg) && $headImg){
+                $model_content = Content::findOne(['campId'=>$id, 'fieldName'=>Content::FIELD_HEAD_IMAGE]);
+                $model_content->content = $headImg;
+                $model_content->save();
             }
             if(Yii::$app->request->post('lineIntroduction')){
                 $model_content = Content::findOne(['campId'=>$id, 'fieldName' => Content::FIELD_lINE_INTRODUCTION]);

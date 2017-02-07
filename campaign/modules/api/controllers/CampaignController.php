@@ -36,6 +36,7 @@ class CampaignController extends ActiveController{
         
         $where = ['and'];
         $where[] = ['isDel' => Code::NOT_DEL_STATUS];
+        $where[] = ['isStick' => 0];
         if(isset($campId) && $campId){
             $where[] = ['campId' => $campId];
         }
@@ -48,16 +49,51 @@ class CampaignController extends ActiveController{
         
         $list = Campaign::find()
                         ->where($where)
-                        ->orderBy(['isStick'=>SORT_DESC, 'updateTime'=>SORT_DESC])
+                        ->orderBy(['updateTime'=>SORT_DESC])
                         ->limit($this->__perNum)
                         ->offset(($page - 1) * $this->__perNum)
                         ->asArray()
                         ->all();
+        if(count($list)){
+            foreach ($list as $k=>$campaign){
+                $headImg = Content::find()
+                                    ->where(['campId'=>$campaign['id'], 'fieldName' => Content::FIELD_HEAD_IMAGE])
+                                    ->asArray()
+                                    ->one();
+                $list[$k]['headImg'] = $headImg['content'];
+            }
+        }
+        $img_where = ['and'];
+        $img_where[] = ['isDel'=>Code::NOT_DEL_STATUS];
+        $img_where[] = ['>' , 'isStick', 0];
+        $img_camp_arr = Campaign::find()
+                                    ->where($img_where)
+                                    ->orderBy(['isStick'=>SORT_DESC])
+                                    ->asArray()
+                                    ->all();
+        $img_lunbo_arr = array();
+        if(count($img_camp_arr)){
+            foreach ($img_camp_arr as $camp){
+                $img = Content::find()
+                                    ->where(['campId' => $camp['id'], 'fieldName' =>Content::FIELD_IMAGE])
+                                    ->orderBy(['createTime' => SORT_DESC])
+                                    ->limit(1)
+                                    ->asArray()
+                                    ->one();
+                $img_lunbo_arr[] = array(
+                    'id' => $camp['id'],
+                    'img' => $img['content'],
+                );
+            }
+        }
         
         return json_encode(array(
             'code' => Code::SUCC,
             'info' => Code::$arr_code_status[Code::SUCC],
-            'data' => $list,
+            'data' => array(
+                'list' => $list,
+                'img'  => $img_lunbo_arr,
+            ),
         ), JSON_UNESCAPED_UNICODE);
     }   
     /**
