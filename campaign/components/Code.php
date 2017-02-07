@@ -22,6 +22,9 @@ class Code {
 	
 	const ERROR_VERIFY_CHECK = "5001";
 	
+	const ERROR_PARAM_PARTIAL = "6001";
+	const ERROR_PARAM_CHECK = "6001";
+	
 	public static $arr_code_status = array(
 	    self::SUCC => '操作成功',
 	    self::ERROR_USER_INFO => '用户信息错误',
@@ -38,6 +41,9 @@ class Code {
 	    self::ERROR_ORDER_CREATE => '订单添加失败',
 	    
 	    self::ERROR_VERIFY_CHECK => '验证码错误',
+	    
+	    self::ERROR_PARAM_PARTIAL => '参数缺失',
+	    self::ERROR_PARAM_CHECK   => '参数校验失败',
 	);
 	
 	const DEL_STATUS = 1;

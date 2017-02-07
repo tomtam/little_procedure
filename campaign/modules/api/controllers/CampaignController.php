@@ -2,7 +2,6 @@
 namespace campaign\modules\api\controllers;
 
 use Yii;
-use yii\rest\ActiveController;
 use campaign\components\Code;
 use campaign\models\Campaign;
 use campaign\models\Search;
@@ -10,11 +9,12 @@ use campaign\models\Content;
 use campaign\components\XUtils;
 use campaign\models\Evaluate;
 
-class CampaignController extends ActiveController{
+class CampaignController extends BaseController{
     public $modelClass = '';
     
     private $__perNum = 10;
     public function beforeAction($action){
+        parent::beforeAction($action);
         return true;
     }
     public function actionList(){

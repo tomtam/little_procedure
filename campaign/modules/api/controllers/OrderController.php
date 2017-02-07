@@ -2,16 +2,15 @@
 namespace campaign\modules\api\controllers;
 
 use Yii;
-use yii\web\Controller;
 use campaign\models\Order;
 use campaign\models\Campaign;
 use campaign\components\Code;
 use campaign\models\Content;
 
-class OrderController extends Controller{
+class OrderController extends BaseController{
     private $__perNum = 10;
     public function beforeAction($action){
-        //通过验证密串儿，确认是否登陆
+        parent::beforeAction($action);
         return true;
     }
     /**

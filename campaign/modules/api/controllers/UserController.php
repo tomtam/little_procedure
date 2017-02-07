@@ -6,8 +6,9 @@ use yii\web\Controller;
 use campaign\models\User;
 use campaign\components\Code;
 
-class UserController extends Controller{
+class UserController extends BaseController{
     public function beforeAction($action){
+        parent::beforeAction($action);
         return true;
     }
     /**
