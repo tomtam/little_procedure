@@ -87,28 +87,22 @@ class CampaignController extends BaseController{
             }
         }
         
+        $model_campaign = new Campaign();
+        
+        $arr = $model_campaign->getLocationName();
+        $arr = XUtils::my_sort($arr, 'count', SORT_DESC);
+        
         return json_encode(array(
             'code' => Code::SUCC,
             'info' => Code::$arr_code_status[Code::SUCC],
             'data' => array(
                 'list' => $list,
                 'img'  => $img_lunbo_arr,
+                'campTypeArr' => Campaign::$campTypeArr,
+                'hotAreaArr'  => $arr,
             ),
         ), JSON_UNESCAPED_UNICODE);
     }   
-    /**
-    * @date: 2017年1月21日 下午4:51:59
-    * @author: louzhiqiang
-    * @return:
-    * @desc:   活动主题的列表
-    */
-    public function actionTypeList(){
-        return json_encode(array(
-            'code' => Code::SUcc,
-            'info' => Code::$arr_code_status[Code::SUCC],
-            'data' => Campaign::$campTypeArr,
-        ), JSON_UNESCAPED_UNICODE);
-    }
     /**
     * @date: 2017年1月21日 下午5:25:31
     * @author: louzhiqiang
@@ -158,24 +152,6 @@ class CampaignController extends BaseController{
            'info' => Code::$arr_code_status[Code::SUCC],
            'data' => $info,
        ), JSON_UNESCAPED_UNICODE);
-    }
-    /**
-    * @date: 2017年1月21日 下午5:29:50
-    * @author: louzhiqiang
-    * @return:
-    * @desc:   获得整个的活动地区列表
-    */
-    public function actionLocationName(){
-        $model_campaign = new Campaign();
-        
-        $arr = $model_campaign->getLocationName();
-        $arr = XUtils::my_sort($arr, 'count', SORT_DESC);
-        
-        return json_encode(array(
-            'code' => Code::SUCC,
-            'info' => Code::$arr_code_status[Code::SUCC],
-            'data' => $arr
-        ), JSON_UNESCAPED_UNICODE);
     }
     public function afterAction($action, $result){
         exit($result);

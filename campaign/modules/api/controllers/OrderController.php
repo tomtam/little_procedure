@@ -6,6 +6,7 @@ use campaign\models\Order;
 use campaign\models\Campaign;
 use campaign\components\Code;
 use campaign\models\Content;
+use campaign\models\Evaluate;
 
 class OrderController extends BaseController{
     private $__perNum = 10;
@@ -27,6 +28,10 @@ class OrderController extends BaseController{
         $phone = Yii::$app->request->post('phone');
         $userId = Yii::$app->request->post('userId');
         
+        $campInfo = Campaign::findOne(['id' => $campId]);
+        if($campInfo['totalNum'] < $num){
+            return Code::errorExit(Code::ERROR_ORDER_CAMPNUM);
+        }        
         try{
             $model_order = new Order();
             $model_order->userId = $userId;
@@ -35,7 +40,6 @@ class OrderController extends BaseController{
             $model_order->mark = $mark;
             $model_order->phone = $phone;
             $model_order->userName = $userName;
-            $campInfo = Campaign::findOne(['id' => $campId]);
             $model_order->amount = $campInfo['price'] * $num;
             $model_order->campTitle = $campInfo['title'];
             $model_order->createTime = time();
@@ -85,7 +89,6 @@ class OrderController extends BaseController{
                                 ->one();
             
             $list[$key]['campInfo'] = array(
-                'title' => $campInfo['title'],
                 'headImg' => $headImg['content'],
             );
             $list[$key]['status'] = $orderStatus = Order::processStatus($campInfo);
@@ -93,8 +96,6 @@ class OrderController extends BaseController{
             
             if(Order::STATUS_ORDER_CAMP_OVER == $orderStatus){
                     $list[$key]['evaluateMark'] = Order::$arr_order_evaluate[$order['evaluateStatus']];
-                    //为true代表是可以评价的   false代表就是不可以去评价
-                    $list[$key]['evaluate'] = ($order['evaluateStatus'] ? true : false);
             }
         }
         
@@ -103,6 +104,30 @@ class OrderController extends BaseController{
             'info' => Code::$arr_code_status[Code::SUCC],
             'data' => $list,
         ), JSON_UNESCAPED_UNICODE);
+    }
+    /**
+    * @date: 2017年2月8日 下午4:35:48
+    * @author: louzhiqiang
+    * @return:
+    * @desc:   评价
+    */
+    public function actionEvaluate(){
+        $starLevel = Yii::$app->request->post('starLevel');
+        $orderId   = Yii::$app->request->post('orderId');
+        $mark = Yii::$app->request->post('mark');
+        $userId = Yii::$app->request->post('userId');
+        
+        $eva_model = new Evaluate();
+        $eva_model->orderId = $orderId;
+        $eva_model->starLevel = $starLevel;
+        $eva_model->content   = $mark;
+        $eva_model->userId    = $userId;
+        $orderInfo = Order::findOne(['id'=> $orderId]);
+        $eva_model->campId = $orderInfo['campId'];
+        
+        $eva_model->save();
+        
+        return Code::errorExit(Code::SUCC);
     }
     public function afterAction($action, $result){
         exit($result);

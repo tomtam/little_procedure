@@ -19,6 +19,7 @@ class Code {
 	const ERROR_IMAGE_DEL     = '3002';
 	
 	const ERROR_ORDER_CREATE  = '4001';
+	const ERROR_ORDER_CAMPNUM  = '4002';
 	
 	const ERROR_VERIFY_CHECK = "5001";
 	
@@ -39,6 +40,7 @@ class Code {
 	    self::ERROR_IMAGE_DEL    => '删除图片失败',
 	    
 	    self::ERROR_ORDER_CREATE => '订单添加失败',
+	    self::ERROR_ORDER_CAMPNUM => '订单数量过大',
 	    
 	    self::ERROR_VERIFY_CHECK => '验证码错误',
 	    
