@@ -39,22 +39,81 @@
     id  活动id  int
     page  评价页码，默认1  int  
 返回值：json
-    imageArr  图片数组 
-        content  图片名称  string
-    lineIntroduction  线路介绍   string
-    scheduling        行程安排   string
-    expenseExplanation  费用说明  string
-    moreIntroduction  更多介绍  string
-    evaluateArr  评论数据数组
-        starLevel  星级数量  int
-        content    评论      string
-        createTime 创建时间  int
-        userId     用户userId  string
-    price  价格  float
-    destination  目的地  string
-    beginTime   开始时间  int
-    endTime     结束时间  int
+    code   200是正常值，非200会在info字段里有报错信息。
+    info   接口信息
+    data   接口数据，code值非200时，无此字段。正常值时包含以下字段
+        imageArr  图片数组 
+            content  图片名称  string
+        lineIntroduction  线路介绍   string
+        scheduling        行程安排   string
+        expenseExplanation  费用说明  string
+        moreIntroduction  更多介绍  string
+        evaluateArr  评论数据数组
+            starLevel  星级数量  int
+            content    评论      string
+            createTime 创建时间  int
+            userId     用户userId  string
+        price  价格  float
+        destination  目的地  string
+        beginTime   开始时间  int
+        endTime     结束时间  int
 
 接口名称：创建订单
-接口地址：/order/
-    
+接口地址：/api/order/add
+方式：post
+参数：
+    userName  用户名  string
+    campId    活动id  int
+    num       参加人数  int
+    mark      留言    string
+    phone     电话    string
+    userId    用户uid  string
+返回值：json
+    code   200是正常值，非200会在info字段里有报错信息。
+    info   接口信息     
+
+接口名称：个人中心里的订单列表
+接口地址：/api/order/list
+方式：post
+参数：
+    userId  用户uid  string
+    page    页数     int
+返回值：
+    code   200是正常值，非200会在info字段里有报错信息。
+    info   接口信息
+    data   接口数据，code值非200时，无此字段。正常值时包含以下字段：
+        status  订单状态  int
+        statusMark  订单名称  string
+        campTitle   活动名称  string
+        headImg  小图标地址  string
+        evaluateMark  评价按钮字样  string
+        mark  留言  string
+        createTime  创建时间  int
+        phone  电话  string
+        campId  活动id  int
+        userName  姓名  string
+        amount  总价格  float
+        userId  用户uid  string
+
+接口名称：用户注册
+接口地址：/api/user/register
+方法：post
+参数：
+    userId  用户uid  string
+    name  用户名称  string
+    photoUrl  用户头像地址  string
+返回值：json
+    code   200是正常值，非200会在info字段里有报错信息。
+    info   接口信息
+
+接口名称：评价
+接口地址：/api/order/evaluate
+方法：post
+参数：
+    starLevel  星级 int
+    orderId  订单id  int
+    mark  用户留言  string
+    userId  用户userId string
+返回值：json
+    code   200是正常值，非200会在info字段里有报错信息。
+    info   接口信息
