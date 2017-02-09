@@ -6,6 +6,7 @@
     campType       热门种类id，多个地区以“|”分割，默认是''
     keyword        搜索关键字，默认是''
     page           页数，默认是1
+    aesStr         放篡改串儿  其余参数组成的json串儿，拼接上密钥，sha1之后的字符串
 返回值：json
     code   200是正常值，非200会在info字段里有报错信息。
     info   接口信息
@@ -37,7 +38,8 @@
 方式：post
 参数：
     id  活动id  int
-    page  评价页码，默认1  int  
+    page  评价页码，默认1  int
+    aesStr         放篡改串儿  其余参数组成的json串儿，拼接上密钥，sha1之后的字符串
 返回值：json
     code   200是正常值，非200会在info字段里有报错信息。
     info   接口信息
@@ -68,6 +70,7 @@
     mark      留言    string
     phone     电话    string
     userId    用户uid  string
+    aesStr         放篡改串儿  其余参数组成的json串儿，拼接上密钥，sha1之后的字符串
 返回值：json
     code   200是正常值，非200会在info字段里有报错信息。
     info   接口信息     
@@ -78,6 +81,7 @@
 参数：
     userId  用户uid  string
     page    页数     int
+    aesStr         放篡改串儿  其余参数组成的json串儿，拼接上密钥，sha1之后的字符串
 返回值：
     code   200是正常值，非200会在info字段里有报错信息。
     info   接口信息
@@ -102,6 +106,7 @@
     userId  用户uid  string
     name  用户名称  string
     photoUrl  用户头像地址  string
+    aesStr         放篡改串儿  其余参数组成的json串儿，拼接上密钥，sha1之后的字符串
 返回值：json
     code   200是正常值，非200会在info字段里有报错信息。
     info   接口信息
@@ -114,6 +119,7 @@
     orderId  订单id  int
     mark  用户留言  string
     userId  用户userId string
+    aesStr         放篡改串儿  其余参数组成的json串儿，拼接上密钥，sha1之后的字符串
 返回值：json
     code   200是正常值，非200会在info字段里有报错信息。
     info   接口信息
