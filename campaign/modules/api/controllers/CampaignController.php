@@ -115,26 +115,37 @@ class CampaignController extends BaseController{
         
         $info = Campaign::find()->where(['id'=>$campId])->asArray()->one();
         
-        $info['imageArr'] = Content::find()
+        $image_arr = Content::find()
                                     ->where(['campId'=>$campId, 'fieldName'=>Content::FIELD_IMAGE])
                                     ->asArray()
                                     ->all();
-        $info[Content::FIELD_lINE_INTRODUCTION] = Content::find()
+        foreach ($image_arr as $img){
+            $info['imageArr'][] = $img['content'];
+        }
+        
+        $line_introduction = Content::find()
                                     ->where(['campId'=>$campId, 'fieldName'=>Content::FIELD_lINE_INTRODUCTION])
                                     ->asArray()
                                     ->one();
-       $info[Content::FIELD_EXPENSE_EXPLANATION] = Content::find()
+        $info[Content::FIELD_lINE_INTRODUCTION] = $line_introduction['content'];
+        
+        $expense_explanation = Content::find()
                                     ->where(['campId'=>$campId, 'fieldName'=>Content::FIELD_EXPENSE_EXPLANATION])
                                     ->asArray()
                                     ->one();
-       $info[Content::FIELD_MORE_INTRODUCTION] = Content::find()
+        $info[Content::FIELD_EXPENSE_EXPLANATION] = $expense_explanation['content'];
+        
+        $more_introduction = Content::find()
                                     ->where(['campId'=>$campId, 'fieldName'=>Content::FIELD_MORE_INTRODUCTION])
                                     ->asArray()
                                     ->one();
-       $info[Content::FIELD_SCHEDULING] = Content::find()
+        $info[Content::FIELD_MORE_INTRODUCTION] = $more_introduction['content'];
+        
+        $scheduling = Content::find()
                                     ->where(['campId'=>$campId, 'fieldName'=>Content::FIELD_SCHEDULING])
                                     ->asArray()
                                     ->one();
+        $info[Content::FIELD_SCHEDULING] = $scheduling['content'];
        
        //评价数据
        $evaluate_arr = Evaluate::find()

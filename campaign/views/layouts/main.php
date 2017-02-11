@@ -7,7 +7,7 @@ use campaign\models\Login;
 <meta charset="UTF-8">
 <title>管理后台</title>
 <link href="/css/style.css" rel="stylesheet" type="text/css">
-<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script src="/js/jquery.js"></script>
 <script src="/js/common.js" type="text/javascript"></script>
 </head>
 <body>
