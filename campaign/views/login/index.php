@@ -6,7 +6,7 @@
 <link href="/css/style.css" rel="stylesheet" type="text/css">
 <link href="/css/buttoncss.css" rel="stylesheet" type="text/css">
 <link href="/css/bootcss.css" rel="stylesheet">
-<link href="/css/responsive.css" rel="stylesheet">
+<link href="/css/responseive.css" rel="stylesheet">
 <script src="/js/jquery.js"></script>
 <script src="/js/common.js" type="text/javascript"></script>
 </head>
