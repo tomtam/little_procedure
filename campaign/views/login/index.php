@@ -7,7 +7,7 @@
 <link href="/css/buttoncss.css" rel="stylesheet" type="text/css">
 <link href="/css/bootcss.css" rel="stylesheet">
 <link href="/css/responsive.css" rel="stylesheet">
-<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script src="/js/jquery.js"></script>
 <script src="/js/common.js" type="text/javascript"></script>
 </head>
 <body>
