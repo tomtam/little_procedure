@@ -103,7 +103,7 @@
 		});
 	});
 	function addImageInput(obj){
-		$(obj).parent().append("<br>" + '<input type="file" name="campImg[]">&nbsp;&nbsp;&nbsp;<a href="#"  onclick="addImageInput(this);" style="cursor: pointer;">再添加一张</a>');
+		$(obj).parent().append("<br>" + '<input type="file" name="campImg[]">&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);"  onclick="addImageInput(this);" style="cursor: pointer;">再添加一张</a>');
 		$(obj).remove();
 	};
 </script>
