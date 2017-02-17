@@ -53,7 +53,14 @@ class CampaignController extends BaseController{
         $list = $this->__camp_model->getList($where, $page, $this->__perNum);
         foreach ($list as $key=>$camp){
             if(isset($camp['campType']) && $camp['campType']){
-                $arrCampType = array_filter(explode(Code::STR_SEPARATOR, $camp['campType']));
+                $arrCampType = array_filter(explode(Code::STR_SEPARATOR, $camp['campType']), function($data){
+                    if($data === ''){
+                        return false;
+                    }else{
+                        return true;
+                    }
+                });
+                $strTemp = "";
                 foreach ($arrCampType as $typeId){
                     $strTemp .= Campaign::$campTypeArr[$typeId] . ",";
                 }
@@ -114,7 +121,7 @@ class CampaignController extends BaseController{
         $beginTime      = strtotime(Yii::$app->request->post('beginTime'));//开始时间
         $endTime        = strtotime(Yii::$app->request->post('endTime'));//结束时间
         $dayNum         = date("Ymd", $endTime) - date("Ymd", $beginTime);//活动天数 
-        $campType       = Code::STR_SEPARATOR. join(Yii::$app->request->post('campType'), Code::STR_SEPARATOR) .Code::STR_SEPARATOR;//活动种类
+        $campType       = Yii::$app->request->post('campType') ? Code::STR_SEPARATOR. join(Yii::$app->request->post('campType'), Code::STR_SEPARATOR) .Code::STR_SEPARATOR : '';//活动种类
         $locationName   = Yii::$app->request->post('locationName');//活动所在地
         
         //存储图片
@@ -288,8 +295,13 @@ class CampaignController extends BaseController{
         $res = Content::find()->where(['campId'=>$info['id'], 'fieldName'=>Content::FIELD_SCHEDULING])->asArray()->one();
         $info[Content::FIELD_SCHEDULING] = $res['content'];
         
-        $info['campType'] = array_filter(explode(Code::STR_SEPARATOR, $info['campType']));
-        
+        $info['campType'] = array_filter(explode(Code::STR_SEPARATOR, $info['campType']), function($data){
+            if($data === ''){
+                return false;
+            }else{
+                return true;
+            }
+        });
         $arr_render = array(
             'info' => $info,
             'campTypeArr' => Campaign::$campTypeArr,
@@ -329,10 +341,9 @@ class CampaignController extends BaseController{
         $beginTime      = strtotime(Yii::$app->request->post('beginTime'));//开始时间
         $endTime        = strtotime(Yii::$app->request->post('endTime'));//结束时间
         $dayNum         = date("Ymd", $endTime) - date("Ymd", $beginTime);//活动天数 
-        $campType       = Code::STR_SEPARATOR. join(Yii::$app->request->post('campType'), Code::STR_SEPARATOR) .Code::STR_SEPARATOR;//活动种类
+        $campType       = Yii::$app->request->post('campType') ? Code::STR_SEPARATOR. join(Yii::$app->request->post('campType'), Code::STR_SEPARATOR) .Code::STR_SEPARATOR : '';//活动种类 
         $locationName   = Yii::$app->request->post('locationName');//活动所在地
         $id = Yii::$app->request->post('id');
-        
         //存储图片
         $_FILES['campImg']['name'] = array_filter($_FILES['campImg']['name']);
         $_FILES['campImg']['type'] = array_filter($_FILES['campImg']['type']);
@@ -416,7 +427,7 @@ class CampaignController extends BaseController{
                 $model_content->save();
             }
             if(Yii::$app->request->post('campType')){
-                Search::deleteAll(['campId'=>$id, 'fieldName'=>Search::FIELD_TYPE]);
+                Yii::$app->db_camp->createCommand("delete from campaign_search where campId={$id} and fieldName='".Search::FIELD_TYPE."'")->execute();
                 foreach (Yii::$app->request->post('campType') as $type){
                     $model_search = new Search();
                     $model_search->campId = $id;
