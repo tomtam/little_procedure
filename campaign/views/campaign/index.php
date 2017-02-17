@@ -97,17 +97,17 @@
                         <input type="hidden" id="select_value">
                         <div class="i-list">
                             	<?php if($page > 1):?> 
-                            		<span><a href="/campaign/index?page=1&title=<?php echo $title;?>&beginTime=<?php echo $beginTime;?>&endTime=<?php echo $endTime;?>&origin=<?php echo $origin;?>">首页</a></span>
+                            		<span><a href="/campaign/index?page=1&title=<?php echo $title;?>&beginTime=<?php echo $beginTime;?>&endTime=<?php echo $endTime;?>&origin=<?php echo $originVal;?>">首页</a></span>
                             	<?php endif;?>
                             	<?php foreach ($pageArr as $pageVal):?>
                             		<?php if($page == $pageVal):?>
                             			<span class="active"><?php echo $pageVal;?></span>
                             		<?php else: ?>
-                            			<a href="/campaign/index?page=<?php echo $pageVal;?>&title=<?php echo $title;?>&beginTime=<?php echo $beginTime;?>&endTime=<?php echo $endTime;?>&origin=<?php echo $origin;?>"><?php echo $pageVal;?></a>
+                            			<a href="/campaign/index?page=<?php echo $pageVal;?>&title=<?php echo $title;?>&beginTime=<?php echo $beginTime;?>&endTime=<?php echo $endTime;?>&origin=<?php echo $originVal;?>"><?php echo $pageVal;?></a>
                             		<?php endif;?>
                             	<?php endforeach;?>
                             	<?php if($page < $totalPage):?> 
-                            		<a href="/campaign/index?page=<?php echo $totalPage;?>&title=<?php echo $title;?>&beginTime=<?php echo $beginTime;?>&endTime=<?php echo $endTime;?>&origin=<?php echo $origin;?>">末页</a> 
+                            		<a href="/campaign/index?page=<?php echo $totalPage;?>&title=<?php echo $title;?>&beginTime=<?php echo $beginTime;?>&endTime=<?php echo $endTime;?>&origin=<?php echo $originVal;?>">末页</a> 
                             	<?php endif;?>
                         </div>
                         <div class="clear"></div>
