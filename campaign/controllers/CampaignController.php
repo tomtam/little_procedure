@@ -120,7 +120,7 @@ class CampaignController extends BaseController{
         $totalNum       = Yii::$app->request->post('totalNum');//活动人数
         $beginTime      = strtotime(Yii::$app->request->post('beginTime'));//开始时间
         $endTime        = strtotime(Yii::$app->request->post('endTime'));//结束时间
-        $dayNum         = date("Ymd", $endTime) - date("Ymd", $beginTime);//活动天数 
+        $dayNum         = $endTime > $beginTime ? ceil(($endTime - $beginTime) / 86400) : 1;//活动天数 
         $campType       = Yii::$app->request->post('campType') ? Code::STR_SEPARATOR. join(Yii::$app->request->post('campType'), Code::STR_SEPARATOR) .Code::STR_SEPARATOR : '';//活动种类
         $locationName   = Yii::$app->request->post('locationName');//活动所在地
         
@@ -340,7 +340,7 @@ class CampaignController extends BaseController{
         $totalNum       = Yii::$app->request->post('totalNum');//活动人数
         $beginTime      = strtotime(Yii::$app->request->post('beginTime'));//开始时间
         $endTime        = strtotime(Yii::$app->request->post('endTime'));//结束时间
-        $dayNum         = date("Ymd", $endTime) - date("Ymd", $beginTime);//活动天数 
+        $dayNum         = $endTime > $beginTime ? ceil(($endTime - $beginTime) / 86400) : 1;//活动天数 
         $campType       = Yii::$app->request->post('campType') ? Code::STR_SEPARATOR. join(Yii::$app->request->post('campType'), Code::STR_SEPARATOR) .Code::STR_SEPARATOR : '';//活动种类 
         $locationName   = Yii::$app->request->post('locationName');//活动所在地
         $id = Yii::$app->request->post('id');
