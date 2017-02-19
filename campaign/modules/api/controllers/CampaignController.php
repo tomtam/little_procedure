@@ -76,7 +76,7 @@ class CampaignController extends BaseController{
             foreach ($img_camp_arr as $camp){
                 $img = Content::find()
                                     ->where(['campId' => $camp['id'], 'fieldName' =>Content::FIELD_IMAGE])
-                                    ->orderBy(['createTime' => SORT_DESC])
+                                    ->orderBy(['id' => SORT_DESC])
                                     ->limit(1)
                                     ->asArray()
                                     ->one();
