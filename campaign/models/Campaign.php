@@ -59,7 +59,7 @@ class Campaign extends ActiveRecord{
     public function getLocationName(){
         $sql = "select count(locationName) as count,locationName from campaign where isDel=".Code::NOT_DEL_STATUS." group by locationName";
         
-        return self::getDb()->createCommand($sql)->query()->read();
+        return self::getDb()->createCommand($sql)->queryAll();
     }
     public static function getDb() {
         return Yii::$app->db_camp;
