@@ -94,6 +94,7 @@
                         <div class="i-num"> 
                             <span class="select-txt">每页显示：<?php echo $perNum;?>条</span>
                         </div>
+                                                           跳转到：<input type="text" name="page" value="" style="width:30px;" onkeydown="intoPage(this);">
                         <input type="hidden" id="select_value">
                         <div class="i-list">
                             	<?php if($page > 1):?> 
@@ -122,6 +123,12 @@
 <div class="clear"></div>
 <script type="text/javascript" src="/js/My97DatePicker/WdatePicker.js"></script>
 <script>
+function intoPage(obj){
+	var page = obj.value;
+	if (event.keyCode==13){
+		location.href = "/campaign/index?page="+page+"&title=<?php echo $title;?>&beginTime=<?php echo $beginTime;?>&endTime=<?php echo $endTime;?>&origin=<?php echo $originVal;?>";
+	}
+}
 function zhiding(id){
 	$.ajax({
 	    url:'/campaign/stick',
