@@ -30,11 +30,11 @@ class BaseController extends ActiveController{
     * @desc:   判断是否登陆
     */
     protected function getLoginStatus(){
-        if(!Yii::$app->request->cookies['sessionId']){
+        if(!Yii::$app->request->post('sessionId')){
             Yii::info("---getLoginStatus cookie里无sessionId", 'api');
             exit(Code::errorExit(Code::ERROR_USER_NO_LOGIN));
         }
-        $res_json = Yii::$app->cache->get(Yii::$app->request->cookies['sessionId']);
+        $res_json = Yii::$app->cache->get(Yii::$app->request->post('sessionId'));
         if( !$res_json ){
             Yii::info("---getLoginStatus 返回结果为空", 'api');
             exit(Code::errorExit(Code::ERROR_USER_NO_LOGIN));
