@@ -8,6 +8,7 @@ namespace campaign\components;
 class Code {
 	const SUCC = 200;
 	const ERROR_USER_INFO = '1001';
+	const ERROR_USER_NO_LOGIN = '1002';
 	
 	const ERROR_CAMP_INSERT = '2001';
 	const ERROR_CAMP_UPDATE = '2002';
@@ -29,6 +30,7 @@ class Code {
 	public static $arr_code_status = array(
 	    self::SUCC => '操作成功',
 	    self::ERROR_USER_INFO => '用户信息错误',
+	    self::ERROR_USER_NO_LOGIN => '用户未登录',
 	    
 	    self::ERROR_CAMP_INSERT => '插入失败',
 	    self::ERROR_CAMP_UPDATE => '更新失败',

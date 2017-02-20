@@ -15,6 +15,7 @@ class CampaignController extends BaseController{
     private $__perNum = 10;
     public function beforeAction($action){
         parent::beforeAction($action);
+        $this->getLoginStatus();
         return true;
     }
     public function actionList(){

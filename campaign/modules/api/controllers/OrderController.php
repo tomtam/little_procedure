@@ -12,6 +12,7 @@ class OrderController extends BaseController{
     private $__perNum = 10;
     public function beforeAction($action){
         parent::beforeAction($action);
+        $this->getLoginStatus();
         return true;
     }
     /**
@@ -26,7 +27,7 @@ class OrderController extends BaseController{
         $num = Yii::$app->request->post('num');
         $mark = Yii::$app->request->post('mark');
         $phone = Yii::$app->request->post('phone');
-        $userId = Yii::$app->request->post('userId');
+        $userId = $this->userId;
         
         $campInfo = Campaign::findOne(['id' => $campId]);
         if($campInfo['totalNum'] < $num){
@@ -68,7 +69,7 @@ class OrderController extends BaseController{
     * @desc:   订单列表
     */
     public function actionList(){
-        $userId = Yii::$app->request->post('userId');
+        $userId = $this->userId;
         $page   = Yii::$app->request->post('page', 1);
         
         $condition = ['userId' => $userId];
@@ -115,7 +116,7 @@ class OrderController extends BaseController{
         $starLevel = Yii::$app->request->post('starLevel');
         $orderId   = Yii::$app->request->post('orderId');
         $mark = Yii::$app->request->post('mark');
-        $userId = Yii::$app->request->post('userId');
+        $userId = $this->userId;
         
         $eva_model = new Evaluate();
         $eva_model->orderId = $orderId;

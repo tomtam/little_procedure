@@ -13,6 +13,16 @@ return [
 					'class' => 'yii\swiftmailer\Mailer',
 					'viewPath' => '@common/mail',
 					'useFileTransport' => true 
-			] 
+			],
+		    'cache' =>[
+		     		'class' => 'yii\caching\MemCache',
+		     		'servers' => [
+		         		[
+		             		'host' => '127.0.0.1',
+		             		'port' => 11211,
+		             	    'weight' => 1,
+		             	],
+		         	],
+		       ],
 		] 
 ];

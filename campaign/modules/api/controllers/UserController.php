@@ -8,6 +8,7 @@ use campaign\components\Wxapi;
 use campaign\components\XUtils;
 
 class UserController extends BaseController{
+    public $modelClass = '';
     public function beforeAction($action){
         parent::beforeAction($action);
         return true;
@@ -19,13 +20,14 @@ class UserController extends BaseController{
     * @desc:   注册添加
     */
     public function actionRegister(){
-        $userId   = Yii::$app->request->post('userId'); 
         $userName = Yii::$app->request->post('name');
         $photoUrl = Yii::$app->request->post('photoUrl');
         $userInfo = Yii::$app->request->post('userInfo');
         
+        $this->getLoginStatus(); 
+        
         $model_user = new User();
-        $model_user->id   = $userId;
+        $model_user->id   = $this->userId;
         $model_user->name = $userName;
         $model_user->createTime = time();
         $model_user->photoUrl   = $photoUrl;
@@ -55,9 +57,14 @@ class UserController extends BaseController{
         }
         
         //把数据放到session里边，返回一个sessionId
-        $sessionKey = XUtils::getURandom();
-        Yii::$app->session[$sessionKey] = $res;
+       $sessionKey = md5(XUtils::getURandom());
+       Yii::$app->cache->set($sessionKey,$res, 3600*24*30);
         
+        return json_encode(array(
+            'code' => Code::SUCC,
+            'info' => Code::$arr_code_status[Code::SUCC],
+            'data' => $sessionKey,
+        ), JSON_UNESCAPED_UNICODE);
     }
     public function afterAction($action, $result){
         exit($result);
