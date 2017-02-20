@@ -9,6 +9,9 @@ class Campaign extends ActiveRecord{
     public static $campTypeArr = array(
         '徒步','登山','跑步','越野','自由行'
     );
+    public static $campLocationNameArr = array(
+        '上海', '北京', '四川', '内蒙古'
+    );
     public function getList($where, $page, $pageSize){
         return self::find()
                         ->where($where)

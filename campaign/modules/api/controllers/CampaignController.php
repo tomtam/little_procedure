@@ -41,8 +41,10 @@ class CampaignController extends BaseController{
         if(isset($campId) && $campId){
             $where[] = ['campId' => $campId];
         }
-        if($locationName){
-            $where[] = ['locationName' => array_filter(explode(Code::STR_SEPARATOR, $locationName))];
+        if(count(array_filter(explode(Code::STR_SEPARATOR, $locationName)))){
+            foreach (array_filter(explode(Code::STR_SEPARATOR, $locationName)) as $locationNameOne){
+                $where[] = ['like','locationName',$locationNameOne];
+            }
         }
         if($keyword){
             $where[] = ['like', 'title', $keyword];
@@ -93,7 +95,6 @@ class CampaignController extends BaseController{
         $model_campaign = new Campaign();
         
         $arr = $model_campaign->getLocationName();
-        $arr = XUtils::my_sort($arr, 'count', SORT_DESC);
         
         return json_encode(array(
             'code' => Code::SUCC,
@@ -102,7 +103,7 @@ class CampaignController extends BaseController{
                 'list' => $list,
                 'img'  => $img_lunbo_arr,
                 'campTypeArr' => Campaign::$campTypeArr,
-                'hotAreaArr'  => $arr,
+                'hotAreaArr'  => Campaign::$campLocationNameArr,
             ),
         ), JSON_UNESCAPED_UNICODE);
     }   
