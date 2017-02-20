@@ -57,9 +57,9 @@ class UserController extends BaseController{
         }
         
         //把数据放到session里边，返回一个sessionId
-       $sessionKey = md5(XUtils::getURandom());
-       Yii::$app->cache->set($sessionKey,$res, 3600*24*30);
-        
+        $sessionKey = md5(XUtils::getURandom());
+        Yii::$app->cache->set($sessionKey,$res, 3600*24*30);
+        Yii::info("---session key设置为".$sessionKey, 'api');
         return json_encode(array(
             'code' => Code::SUCC,
             'info' => Code::$arr_code_status[Code::SUCC],

@@ -32,10 +32,12 @@ class BaseController extends ActiveController{
     protected function getLoginStatus(){
         $res_json = Yii::$app->cache->get(Yii::$app->request->cookies['sessionId']);
         if( !$res_json ){
+            Yii::info("---getLoginStatus 返回结果为空", 'api');
             exit(Code::errorExit(Code::ERROR_USER_NO_LOGIN));
         }
         
         $res_arr = json_decode($res_json, true); 
+        Yii::info("---getLoginStatus 用户数据：".$res_json, 'api');
         
         $this->userId = $res_arr['openid'];
         $this->secret = $res_arr['session_key'];
