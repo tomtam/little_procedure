@@ -70,7 +70,6 @@
 	    num       参加人数  int
 	    mark      留言    string
 	    phone     电话    string
-	    userId    用户uid  string
 	    aesStr         放篡改串儿  其余参数组成的json串儿，拼接上密钥，sha1之后的字符串
 	返回值：json
 	    code   200是正常值，非200会在info字段里有报错信息。
@@ -80,7 +79,6 @@
 	接口地址：/api/order/list
 	方式：post
 	参数：
-	    userId  用户uid  string
 	    page    页数     int
 	    aesStr         放篡改串儿  其余参数组成的json串儿，拼接上密钥，sha1之后的字符串
 	返回值：
@@ -104,7 +102,6 @@
 	接口地址：/api/user/register
 	方法：post
 	参数：
-	    userId  用户uid  string
 	    name  用户名称  string
 	    photoUrl  用户头像地址  string
 	    aesStr         放篡改串儿  其余参数组成的json串儿，拼接上密钥，sha1之后的字符串
@@ -119,8 +116,18 @@
 	    starLevel  星级 int
 	    orderId  订单id  int
 	    mark  用户留言  string
-	    userId  用户userId string
 	    aesStr         放篡改串儿  其余参数组成的json串儿，拼接上密钥，sha1之后的字符串
 	返回值：json
 	    code   200是正常值，非200会在info字段里有报错信息。
 	    info   接口信息
+	    
+	接口名称：给服务端补充登陆信息
+	接口地址：/api/user/secret
+	方法：post
+	参数：
+	    code           通过login接口得到的code
+	    aesStr         放篡改串儿  其余参数组成的json串儿，拼接上密钥，sha1之后的字符串
+	返回值：json
+	    code   200是正常值，非200会在info字段里有报错信息。
+	    info   接口信息
+	    data   sessionId信息，小程序得到之后可以把数据存在storage里边，下次请求的数据的时候要在cookie里带上，cookie的key值：sessionId
