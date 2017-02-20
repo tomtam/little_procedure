@@ -61,6 +61,8 @@ class CampaignController extends BaseController{
                                     ->asArray()
                                     ->one();
                 $list[$k]['headImg'] = Content::getImagePath($headImg['content']);
+                $list[$k]['beginTime'] = date("Y-m-d", $campaign['beginTime']);
+                $list[$k]['endTime'] = date("Y-m-d", $campaign['endTime']);
             }
         }
         $img_where = ['and'];
@@ -114,6 +116,9 @@ class CampaignController extends BaseController{
         $page   = Yii::$app->request->post('page', 1);
         
         $info = Campaign::find()->where(['id'=>$campId])->asArray()->one();
+        
+        $info['beginTime'] = date("Y-m-d", $info['beginTime']);
+        $info['endTime'] = date("Y-m-d", $info['endTime']);
         
         $image_arr = Content::find()
                                     ->where(['campId'=>$campId, 'fieldName'=>Content::FIELD_IMAGE])
