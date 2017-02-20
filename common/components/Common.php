@@ -70,7 +70,6 @@ class Common {
         curl_setopt($ch, CURLOPT_POST, true);
         
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data)); //data with URLEncode
-        curl_setopt ($ch, CURLOPT_USERAGENT, "devType=windows;");
         $ret = curl_exec($ch);
         $logData = [
             'httpcode'=> curl_getinfo($ch, CURLINFO_HTTP_CODE),

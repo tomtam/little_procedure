@@ -3,13 +3,48 @@
 namespace campaign\components;
 
 use Yii;
+use yii\base\Exception;
 
 /**
  * 系统助手类
  *
  */
 class XUtils {
-
+    /**
+    * @date: 2017年2月19日 下午7:02:50
+    * @author: louzhiqiang
+    * @return:
+    * @desc:   获得设备的随机数
+    */
+    public static function getURandom($min = 0, $max = 0x7FFFFFFF){
+        $diff = $max - $min;
+        if ($diff > PHP_INT_MAX) {
+            throw new Exception('Bad Range');
+        }
+        
+        $fh = fopen('/dev/urandom', 'r');
+        stream_set_read_buffer($fh, PHP_INT_SIZE);
+        $bytes = fread($fh, PHP_INT_SIZE );
+        if ($bytes === false || strlen($bytes) != PHP_INT_SIZE ) {
+            //throw new RuntimeException("nable to get". PHP_INT_SIZE . "bytes");
+            return 0;
+        }
+        fclose($fh);
+        
+        if (PHP_INT_SIZE == 8) { // 64-bit versions
+            list($higher, $lower) = array_values(unpack('N2', $bytes));
+            $value = $higher << 32 | $lower;
+        }
+        else { // 32-bit versions
+            list($value) = array_values(unpack('Nint', $bytes));
+        
+        }
+        
+        $val = $value & PHP_INT_MAX;
+        $fp = (float)$val / PHP_INT_MAX; // convert to [0,1]
+        
+        return (int)(round($fp * $diff) + $min);
+    }
     /**
      * 友好显示var_dump
      */
@@ -84,40 +119,6 @@ class XUtils {
         }
         return round($size, $dec) . " " . $a[$pos];
     }
-
-    /**
-     * 下拉框，单选按钮 自动选择
-     *
-     * @param $string 输入字符
-     * @param $param  条件
-     * @param $type   类型
-     *            selected checked
-     * @return string
-     */
-    static public function selected($string, $param = 1, $type = 'select') {
-        $true = false;
-        $return = '';
-        if (is_array($param)) {
-            $true = in_array($string, $param);
-        } elseif ($string == $param) {
-            $true = true;
-        }
-        if ($true) {
-            $return = $type == 'select' ? 'selected="selected"' : 'checked="checked"';
-        }
-        echo $return;
-    }
-
-    /**
-     * 获得来源类型 post get
-     *
-     * @return unknown
-     */
-    static public function method() {
-        return strtoupper(isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET' );
-    }
-
-
     /**
      * 查询字符生成
      */
@@ -255,26 +256,6 @@ class XUtils {
 
         return preg_match('#(http|https|ftp|ftps)://([\w-]+\.)+[\w-]+(/[\w-./?%&=]*)?#i', $str) ? true : false;
     }
-
-    /**
-     * 根据ip获取地理位置
-     * @param $ip
-     * return :ip,beginip,endip,country,area
-     */
-    public static function getlocation($ip = '') {
-        $ip = new XIp();
-        $ipArr = $ip->getlocation($ip);
-        return $ipArr;
-    }
-
-    /**
-     * 中文转换为拼音
-     */
-    public static function pinyin($str) {
-        $ip = new XPinyin();
-        return $ip->output($str);
-    }
-
     /**
      * 拆分sql
      *
@@ -415,30 +396,6 @@ class XUtils {
         else
             $str = $url;
         return $str;
-    }
-
-    /*
-      标题样式格式化
-     */
-
-    public static function titleStyle($style) {
-        $text = '';
-        if ($style['bold'] == 'Y') {
-            $text .='font-weight:bold;';
-            $serialize['bold'] = 'Y';
-        }
-
-        if ($style['underline'] == 'Y') {
-            $text .='text-decoration:underline;';
-            $serialize['underline'] = 'Y';
-        }
-
-        if (!empty($style['color'])) {
-            $text .='color:#' . $style['color'] . ';';
-            $serialize['color'] = $style['color'];
-        }
-
-        return array('text' => $text, 'serialize' => empty($serialize) ? '' : serialize($serialize));
     }
 
     // 自动转换字符集 支持数组转换
@@ -582,17 +539,6 @@ class XUtils {
         }
         return $string;
     }
-
-    /**
-     * 格式化内容
-     */
-    static function formatHtml($content, $options = '') {
-        $purifier = new CHtmlPurifier();
-        if ($options != false)
-            $purifier->options = $options;
-        return $purifier->purify($content);
-    }
-
     /*
      * 生成字符串
      */

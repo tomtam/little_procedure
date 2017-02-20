@@ -60,6 +60,16 @@ return [
                 'maxFileSize' => 1024,
                 'maxLogFiles' => 20,
                 ],
+                [
+                'class' => 'common\components\FileTarget',
+                'levels' => ['info'],
+                'categories' => ['wx'],
+                'enableDatePrefix' => true,
+                'logFile' => '@app/runtime/logs/wx_info.log',
+                'logVars' => [''],
+                'maxFileSize' => 1024,
+                'maxLogFiles' => 20,
+                ],
             ],
         ],
         'errorHandler' => [

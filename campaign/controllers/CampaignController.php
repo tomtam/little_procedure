@@ -122,7 +122,7 @@ class CampaignController extends BaseController{
         $endTime        = strtotime(Yii::$app->request->post('endTime'));//结束时间
         $dayNum         = $endTime > $beginTime ? ceil(($endTime - $beginTime) / 86400) : 1;//活动天数 
         $campType       = Yii::$app->request->post('campType') ? Code::STR_SEPARATOR. join(Yii::$app->request->post('campType'), Code::STR_SEPARATOR) .Code::STR_SEPARATOR : '';//活动种类
-        $locationName   = Yii::$app->request->post('locationName');//活动所在地
+        $locationName   = trim(Yii::$app->request->post('locationName'));//活动所在地
         
         //存储图片
         $_FILES['campImg']['name'] = array_filter($_FILES['campImg']['name']);

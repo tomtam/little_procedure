@@ -60,7 +60,7 @@ class CampaignController extends BaseController{
                                     ->where(['campId'=>$campaign['id'], 'fieldName' => Content::FIELD_HEAD_IMAGE])
                                     ->asArray()
                                     ->one();
-                $list[$k]['headImg'] = $headImg['content'];
+                $list[$k]['headImg'] = Content::getImagePath($headImg['content']);
             }
         }
         $img_where = ['and'];
@@ -82,7 +82,7 @@ class CampaignController extends BaseController{
                                     ->one();
                 $img_lunbo_arr[] = array(
                     'id' => $camp['id'],
-                    'img' => $img['content'],
+                    'img' => Content::getImagePath($img['content']),
                 );
             }
         }
@@ -120,7 +120,7 @@ class CampaignController extends BaseController{
                                     ->asArray()
                                     ->all();
         foreach ($image_arr as $img){
-            $info['imageArr'][] = $img['content'];
+            $info['imageArr'][] = Content::getImagePath($img['content']);
         }
         
         $line_introduction = Content::find()

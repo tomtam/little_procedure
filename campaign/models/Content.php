@@ -41,4 +41,7 @@ class Content extends ActiveRecord{
     public static function tableName() {
         return '{{campaign_content}}';
     }
+    public static function getImagePath($path){
+        return Yii::$app->params['rootUrl']."upload/".$path;
+    }
 }
