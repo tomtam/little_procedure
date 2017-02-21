@@ -15,6 +15,7 @@ class BaseController extends ActiveController{
             exit(Code::errorExit(Code::ERROR_PARAM_PARTIAL));
         }
         $params = Yii::$app->request->post();
+        Yii::info("-----params:".print_r($params, true), 'api');
         if(isset($params['userInfo'])){
             $params['userInfo'] = json_decode($params['userInfo'], true);
         }
