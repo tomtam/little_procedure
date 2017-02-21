@@ -65,11 +65,9 @@
 	接口地址：/api/order/add
 	方式：post
 	参数：
-	    userName  用户名  string
 	    campId    活动id  int
 	    num       参加人数  int
-	    mark      留言    string
-	    phone     电话    string
+	    list      参加人员的list  
 	    aesStr         放篡改串儿  其余参数组成的json串儿，拼接上密钥，sha1之后的字符串
 	返回值：json
 	    code   200是正常值，非200会在info字段里有报错信息。

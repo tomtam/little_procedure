@@ -7,6 +7,7 @@ use campaign\models\Campaign;
 use campaign\components\Code;
 use campaign\models\Content;
 use campaign\models\Evaluate;
+use campaign\models\User;
 
 class OrderController extends BaseController{
     private $__perNum = 10;
@@ -22,25 +23,31 @@ class OrderController extends BaseController{
     * @desc:   订单添加
     */
     public function actionAdd(){
-        $userName = Yii::$app->request->post('userName');
         $campId = Yii::$app->request->post('campId');
+        $userList = Yii::$app->request->post('userList');
         $num = Yii::$app->request->post('num');
-        $mark = Yii::$app->request->post('mark');
-        $phone = Yii::$app->request->post('phone');
         $userId = $this->userId;
-        
+        Yii::info("-----添加订单---参数：".print_r(Yii::$app->request->post(), true), 'api');
         $campInfo = Campaign::findOne(['id' => $campId]);
         if($campInfo['totalNum'] < $num){
             return Code::errorExit(Code::ERROR_ORDER_CAMPNUM);
-        }        
+        }
+        $userInfo = User::findOne(['id'=>$userId]);
+        
+        $userList_arr = json_decode($userList, true);
+        
+        if( count($userList_arr) != $num ){
+            return Code::errorExit(Code::ERROR_ORDER_NUM);
+        }
+        
         try{
             $model_order = new Order();
             $model_order->userId = $userId;
             $model_order->campId = $campId;
             $model_order->num = $num;
-            $model_order->mark = $mark;
-            $model_order->phone = $phone;
-            $model_order->userName = $userName;
+            $model_order->mark = $userList;
+            $model_order->phone = $userList_arr[0]['phone'];
+            $model_order->userName = $userInfo['name'];
             $model_order->amount = $campInfo['price'] * $num;
             $model_order->campTitle = $campInfo['title'];
             $model_order->createTime = time();
