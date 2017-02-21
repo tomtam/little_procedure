@@ -10,6 +10,7 @@ use campaign\models\Evaluate;
 use campaign\models\User;
 
 class OrderController extends BaseController{
+    public $modelClass = '';
     private $__perNum = 10;
     public function beforeAction($action){
         parent::beforeAction($action);
