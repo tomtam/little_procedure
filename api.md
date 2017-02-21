@@ -90,9 +90,7 @@
 	        evaluateMark  评价按钮字样  string
 	        mark  留言  string
 	        createTime  创建时间  int
-	        phone  电话  string
 	        campId  活动id  int
-	        userName  姓名  string
 	        amount  总价格  float
 	        userId  用户uid  string
 	

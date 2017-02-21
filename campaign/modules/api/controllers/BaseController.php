@@ -15,6 +15,9 @@ class BaseController extends ActiveController{
             exit(Code::errorExit(Code::ERROR_PARAM_PARTIAL));
         }
         $params = Yii::$app->request->post();
+        if(isset($params['userInfo'])){
+            $params['userInfo'] = json_decode($params['userInfo'], true);
+        }
         unset($params['aesStr']);
         if($aesStr != sha1(json_encode($params, JSON_UNESCAPED_UNICODE).Yii::$app->params['aes'])){
             Yii::info("----aesStr校验不通过:aesStr参数：".$aesStr."-----php生成的：".sha1(json_encode($params, JSON_UNESCAPED_UNICODE).Yii::$app->params['aes']), 'api');
