@@ -123,7 +123,7 @@ class OrderController extends BaseController{
     * @desc:   评价
     */
     public function actionEvaluate(){
-        Yii::info("-----post过来的数据是：".print_r(Yii::$app->request->post(), true)."----get过来的数据是：".print_r(Yii::$app->request->get(), true));
+        Yii::info("-----post过来的数据是：".print_r(Yii::$app->request->post(), true)."----get过来的数据是：".print_r(Yii::$app->request->get(), true), 'order');
         $starLevel = Yii::$app->request->post('starLevel');
         $orderId   = Yii::$app->request->post('orderId');
         $mark = Yii::$app->request->post('mark');
@@ -142,6 +142,10 @@ class OrderController extends BaseController{
         $eva_model->campId = $orderInfo['campId'];
         
         $eva_model->save();
+        
+        $order_model = Order::findOne(['id' => $orderId]);
+        $order_model->evaluateStatus = Order::EVALUATE_ORDER_DONE;
+        $order_model->save();
         
         return Code::errorExit(Code::SUCC);
     }
