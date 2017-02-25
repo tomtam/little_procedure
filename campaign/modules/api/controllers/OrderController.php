@@ -123,6 +123,7 @@ class OrderController extends BaseController{
     * @desc:   评价
     */
     public function actionEvaluate(){
+        Yii::info("-----post过来的数据是：".print_r(Yii::$app->request->post(), true)."----get过来的数据是：".print_r(Yii::$app->request->get(), true));
         $starLevel = Yii::$app->request->post('starLevel');
         $orderId   = Yii::$app->request->post('orderId');
         $mark = Yii::$app->request->post('mark');
