@@ -133,7 +133,10 @@ class OrderController extends BaseController{
         $eva_model->starLevel = $starLevel;
         $eva_model->content   = $mark;
         $eva_model->userId    = $userId;
-        $orderInfo = Order::findOne(['id'=> $orderId]);
+        $orderInfo = Order::find()
+                               ->where(['id'=> $orderId])
+                               ->asArray()
+                               ->one();
         $eva_model->campId = $orderInfo['campId'];
         
         $eva_model->save();
