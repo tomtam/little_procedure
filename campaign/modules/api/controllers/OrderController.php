@@ -101,6 +101,7 @@ class OrderController extends BaseController{
                 'headImg' => Content::getImagePath($headImg['content']),
             );
             $list[$key]['statusMark'] = Order::$arr_order_status[$list[$key]['status']];
+            $list[$key]['mark'] = json_decode($order['mark'], true);
             
             if(Order::STATUS_ORDER_CAMP_OVER == $list[$key]['status']){
                  $list[$key]['evaluateMark'] = Order::$arr_order_evaluate[$order['evaluateStatus']];
