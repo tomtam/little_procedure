@@ -53,6 +53,7 @@ class OrderController extends BaseController{
             $model_order->campTitle = $campInfo['title'];
             $model_order->createTime = time();
             $model_order->updateTime = time();
+            $model_order->status = Order::STATUS_ORDER_PAY_SUCCESS;
             $result_insert = $model_order->save();
         }catch (\yii\db\IntegrityException $e){
             $message = $e->getMessage()."---".$e->getTraceAsString();
@@ -125,8 +126,17 @@ class OrderController extends BaseController{
     public function actionEvaluate(){
         Yii::info("-----post过来的数据是：".print_r(Yii::$app->request->post(), true)."----get过来的数据是：".print_r(Yii::$app->request->get(), true), 'order');
         $starLevel = Yii::$app->request->post('starLevel');
+        if(!$starLevel){
+            return json_encode(array(
+                'code' => Code::ERROR_ORDER_EVA_PARAM_PARTIAL,
+                'info' => '请添加评分'
+            ), JSON_UNESCAPED_UNICODE);
+        }
         $orderId   = Yii::$app->request->post('orderId');
         $mark = Yii::$app->request->post('mark');
+        if(!$mark){
+            $mark = "默认好评";
+        }
         $userId = $this->userId;
         
         $eva_model = new Evaluate();
