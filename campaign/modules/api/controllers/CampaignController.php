@@ -152,7 +152,7 @@ class CampaignController extends BaseController{
                                     ->where(['campId'=>$campId, 'fieldName'=>Content::FIELD_SCHEDULING])
                                     ->asArray()
                                     ->one();
-        $info[Content::FIELD_SCHEDULING] = $scheduling['content'];
+        $info[Content::FIELD_SCHEDULING] = $scheduling['content'] ? $scheduling['content'] : '暂无';
        
        //评价数据
        $evaluate_arr = Evaluate::find()

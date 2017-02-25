@@ -26,13 +26,17 @@ class UserController extends BaseController{
         
         $this->getLoginStatus(); 
         
-        $model_user = new User();
-        $model_user->id   = $this->userId;
-        $model_user->name = $userName;
-        $model_user->createTime = time();
-        $model_user->photoUrl   = $photoUrl;
-        $model_user->userInfo = $userInfo;
-        $model_user->save();
+        $model_user = User::findOne(['id' => $this->userId]);
+        
+        if(!$model_user){
+            $model_user = new User();
+            $model_user->id   = $this->userId;
+            $model_user->name = $userName;
+            $model_user->createTime = time();
+            $model_user->photoUrl   = $photoUrl;
+            $model_user->userInfo = $userInfo;
+            $model_user->save();
+        }
         
         return Code::errorExit(Code::SUCC);
     }

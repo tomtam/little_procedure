@@ -100,10 +100,9 @@ class OrderController extends BaseController{
             $list[$key]['campInfo'] = array(
                 'headImg' => Content::getImagePath($headImg['content']),
             );
-            $list[$key]['status'] = $orderStatus = Order::processStatus($campInfo);
-            $list[$key]['statusMark'] = Order::$arr_order_status[$orderStatus];
+            $list[$key]['statusMark'] = Order::$arr_order_status[$list[$key]['status']];
             
-            if(Order::STATUS_ORDER_CAMP_OVER == $orderStatus){
+            if(Order::STATUS_ORDER_CAMP_OVER == $list[$key]['status']){
                  $list[$key]['evaluateMark'] = Order::$arr_order_evaluate[$order['evaluateStatus']];
             }
         }
