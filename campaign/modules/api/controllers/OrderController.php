@@ -137,6 +137,7 @@ class OrderController extends BaseController{
                                ->where(['id'=> $orderId])
                                ->asArray()
                                ->one();
+        Yii::info("----插入评价时查到的订单信息：".print_r($orderInfo, true), 'order');
         $eva_model->campId = $orderInfo['campId'];
         
         $eva_model->save();
