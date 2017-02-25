@@ -103,6 +103,8 @@ class OrderController extends BaseController{
             $list[$key]['statusMark'] = Order::$arr_order_status[$list[$key]['status']];
             $list[$key]['mark'] = json_decode($order['mark'], true);
             
+            $list[$key]['createTime'] = date("Y-m-d", $order['createTime']);
+            
             if(Order::STATUS_ORDER_CAMP_OVER == $list[$key]['status']){
                  $list[$key]['evaluateMark'] = Order::$arr_order_evaluate[$order['evaluateStatus']];
             }
