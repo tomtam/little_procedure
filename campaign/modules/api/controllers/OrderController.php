@@ -111,7 +111,7 @@ class OrderController extends BaseController{
             'code' => Code::SUCC,
             'info' => Code::$arr_code_status[Code::SUCC],
             'data' => $list,
-        ), JSON_UNESCAPED_UNICODE);
+        ), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     }
     /**
     * @date: 2017年2月8日 下午4:35:48
