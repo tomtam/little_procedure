@@ -8,6 +8,7 @@ use campaign\models\Search;
 use campaign\models\Content;
 use campaign\components\XUtils;
 use campaign\models\Evaluate;
+use campaign\models\User;
 
 class CampaignController extends BaseController{
     public $modelClass = '';
@@ -156,12 +157,21 @@ class CampaignController extends BaseController{
        
        //评价数据
        $evaluate_arr = Evaluate::find()
+                                ->select(['createTime', 'userId', 'starLevel', 'content'])
                                 ->where(['campId'=>$info['id']])
                                 ->orderBy(['createTime' => SORT_DESC])
                                 ->limit($this->__perNum)
                                 ->offset(($page - 1) * $this->__perNum)
                                 ->asArray()
                                 ->all();
+       foreach ($evaluate_arr as $eva_key=>$eva){
+           $userInfo = User::find()
+                                ->where(['id' => $eva['userId']])
+                                ->asArray()
+                                ->one();
+           $evaluate_arr[$eva_key]['userName'] = $userInfo['name'];
+           $evaluate_arr[$eva_key]['photoUrl'] = $userInfo['photoUrl'];
+       }
        
        $info['evaluateArr'] = $evaluate_arr;
        
