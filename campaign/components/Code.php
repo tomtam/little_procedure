@@ -22,6 +22,7 @@ class Code {
 	const ERROR_ORDER_CREATE  = '4001';
 	const ERROR_ORDER_CAMPNUM  = '4002';
 	const ERROR_ORDER_NUM  = '4003';
+	const ERROR_ORDER_EVA_PARAM_PARTIAL = '4004';
 	
 	const ERROR_VERIFY_CHECK = "5001";
 	
@@ -56,6 +57,11 @@ class Code {
 	const NOT_DEL_STATUS = 0;
 	
 	const STR_SEPARATOR = "|";
+	/**
+	 * 前端js过来的逗号
+	 * @var unknown
+	 */
+	const JS_STR_SEPARATOR = ",";
 	/**
 	* @date: 2016年12月19日 下午2:20:39
 	* @author: louzhiqiang
