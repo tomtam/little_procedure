@@ -19,6 +19,7 @@ class BaseController extends ActiveController{
         Yii::info("-----params:".print_r($params, true), 'api');
         if($aesStr != sha1(json_encode($params, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES).Yii::$app->params['aes'])){
             Yii::info("----aesStr校验不通过:aesStr参数：".$aesStr."-----php生成的：".sha1(json_encode($params, JSON_UNESCAPED_UNICODE).Yii::$app->params['aes']), 'api');
+            Yii::info("---params is :".json_encode($params, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES), 'api');
             exit(Code::errorExit(Code::ERROR_PARAM_CHECK));
         }
         
