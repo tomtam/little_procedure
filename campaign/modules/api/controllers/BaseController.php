@@ -16,7 +16,7 @@ class BaseController extends ActiveController{
         }
         $params = Yii::$app->request->post();
         if(isset($params['locationName']) && $params['locationName']){
-            $params['locationName'] = explode(",", $params['locationName']);
+            $params['locationName'] = explode(Code::JS_STR_SEPARATOR, $params['locationName']);
         }
         unset($params['aesStr']);
         Yii::info("-----params:".print_r($params, true), 'api');

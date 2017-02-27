@@ -42,8 +42,8 @@ class CampaignController extends BaseController{
         if(isset($campId) && $campId){
             $where[] = ['campId' => $campId];
         }
-        if(count(array_filter(explode(Code::STR_SEPARATOR, $locationName)))){
-            foreach (array_filter(explode(Code::STR_SEPARATOR, $locationName)) as $locationNameOne){
+        if(count(array_filter(explode(Code::JS_STR_SEPARATOR, $locationName)))){
+            foreach (array_filter(explode(Code::JS_STR_SEPARATOR, $locationName)) as $locationNameOne){
                 $where[] = ['like','locationName',$locationNameOne];
             }
         }
