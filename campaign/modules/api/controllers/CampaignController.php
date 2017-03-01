@@ -29,7 +29,10 @@ class CampaignController extends BaseController{
         if($campType){
             $campId = array();
             $arrCampType = array_filter(explode(Code::STR_SEPARATOR, $campType));
-            $arrCampId = Search::find()->where(['content'=>$arrCampType, 'fieldName'=>Search::FIELD_TYPE])->asArray()->all();
+            foreach ($arrCampType as $k=>$camp){
+                $arrCampRes[] = array_search($camp, Campaign::$campTypeArr);
+            }
+            $arrCampId = Search::find()->where(['content'=>$arrCampRes, 'fieldName'=>Search::FIELD_TYPE])->asArray()->all();
             foreach ($arrCampId as $search){
                 $campId[] = $search['campId'];
             }

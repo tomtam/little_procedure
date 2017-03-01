@@ -18,6 +18,9 @@ class BaseController extends ActiveController{
         if(isset($params['locationName']) && $params['locationName']){
             $params['locationName'] = explode(Code::JS_STR_SEPARATOR, $params['locationName']);
         }
+        if(isset($params['campType']) && $params['campType']){
+            $params['campType'] = explode(Code::JS_STR_SEPARATOR, $params['campType']);
+        }
         unset($params['aesStr']);
         Yii::info("-----params:".print_r($params, true), 'api');
         if($aesStr != sha1(json_encode($params, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES).Yii::$app->params['aes'])){
