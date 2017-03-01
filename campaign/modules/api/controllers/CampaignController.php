@@ -43,14 +43,18 @@ class CampaignController extends BaseController{
             $where[] = ['campId' => $campId];
         }
         if(count(array_filter(explode(Code::JS_STR_SEPARATOR, $locationName)))){
+            $where_or = ['and'];
             foreach (array_filter(explode(Code::JS_STR_SEPARATOR, $locationName)) as $locationNameOne){
-                $where[] = ['like','locationName',$locationNameOne];
+                $where_or[] = ['like','locationName',$locationNameOne];
             }
+            
+            $where[] = $where_or;
         }
         if($keyword){
             $where[] = ['like', 'title', $keyword];
         }
-        
+        Yii::info("---查询的sql语句是：".Campaign::find()
+                        ->where($where)->createCommand()->getRawSql(), 'api');
         $list = Campaign::find()
                         ->where($where)
                         ->orderBy(['updateTime'=>SORT_DESC])
