@@ -43,7 +43,7 @@ class CampaignController extends BaseController{
             $where[] = ['campId' => $campId];
         }
         if(count(array_filter(explode(Code::JS_STR_SEPARATOR, $locationName)))){
-            $where_or = ['and'];
+            $where_or = ['or'];
             foreach (array_filter(explode(Code::JS_STR_SEPARATOR, $locationName)) as $locationNameOne){
                 $where_or[] = ['like','locationName',$locationNameOne];
             }
