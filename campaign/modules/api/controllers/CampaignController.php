@@ -43,7 +43,7 @@ class CampaignController extends BaseController{
         $where[] = ['isDel' => Code::NOT_DEL_STATUS];
         $where[] = ['isStick' => 0];
         if(isset($campId) && $campId){
-            $where[] = ['campId' => $campId];
+            $where[] = ['id' => $campId];
         }
         if(count(array_filter(explode(Code::JS_STR_SEPARATOR, $locationName)))){
             $where_or = ['or'];
