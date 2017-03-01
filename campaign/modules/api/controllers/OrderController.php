@@ -24,9 +24,9 @@ class OrderController extends BaseController{
     * @desc:   订单添加
     */
     public function actionAdd(){
-        $campId = Yii::$app->request->post('campId');
-        $userList = Yii::$app->request->post('userList');
-        $num = Yii::$app->request->post('num');
+        $campId = trim(Yii::$app->request->post('campId'), "'");
+        $userList = trim(Yii::$app->request->post('userList'), "'");
+        $num = trim(Yii::$app->request->post('num'), "'");
         $userId = $this->userId;
         Yii::info("-----添加订单---参数：".print_r(Yii::$app->request->post(), true), 'api');
         $campInfo = Campaign::find()
