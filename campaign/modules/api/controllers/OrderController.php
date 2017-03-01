@@ -29,7 +29,10 @@ class OrderController extends BaseController{
         $num = Yii::$app->request->post('num');
         $userId = $this->userId;
         Yii::info("-----添加订单---参数：".print_r(Yii::$app->request->post(), true), 'api');
-        $campInfo = Campaign::findOne(['id' => $campId]);
+        $campInfo = Campaign::find()
+                                ->where(['id' => $campId])
+                                ->asArray()
+                                ->one();
         if($campInfo['totalNum'] < $num){
             return Code::errorExit(Code::ERROR_ORDER_CAMPNUM);
         }
