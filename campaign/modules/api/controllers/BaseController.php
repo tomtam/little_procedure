@@ -15,6 +15,7 @@ class BaseController extends ActiveController{
             exit(Code::errorExit(Code::ERROR_PARAM_PARTIAL));
         }
         $params = Yii::$app->request->post();
+        Yii::info("------进入的参数是：".json_encode($params, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES), 'api');
         if(isset($params['locationName']) && $params['locationName'] && strpos($params['locationName'], Code::JS_STR_SEPARATOR)){
             $params['locationName'] = explode(Code::JS_STR_SEPARATOR, $params['locationName']);
         }
