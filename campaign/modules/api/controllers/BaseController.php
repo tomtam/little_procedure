@@ -15,10 +15,10 @@ class BaseController extends ActiveController{
             exit(Code::errorExit(Code::ERROR_PARAM_PARTIAL));
         }
         $params = Yii::$app->request->post();
-        if(isset($params['locationName']) && $params['locationName']){
+        if(isset($params['locationName']) && $params['locationName'] && strpos($params['locationName'], Code::JS_STR_SEPARATOR)){
             $params['locationName'] = explode(Code::JS_STR_SEPARATOR, $params['locationName']);
         }
-        if(isset($params['campType']) && $params['campType']){
+        if(isset($params['campType']) && $params['campType'] && strpos($params['campType'], Code::JS_STR_SEPARATOR)){
             $params['campType'] = explode(Code::JS_STR_SEPARATOR, $params['campType']);
         }
         unset($params['aesStr']);
