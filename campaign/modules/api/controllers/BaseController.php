@@ -16,10 +16,10 @@ class BaseController extends ActiveController{
         }
         $params = Yii::$app->request->post();
         Yii::info("------进入的参数是：".json_encode($params, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES), 'api');
-        if(isset($params['locationName']) && $params['locationName'] && strpos($params['locationName'], Code::JS_STR_SEPARATOR)){
+        if(isset($params['locationName']) && $params['locationName']){
             $params['locationName'] = explode(Code::JS_STR_SEPARATOR, $params['locationName']);
         }
-        if(isset($params['campType']) && $params['campType'] && strpos($params['campType'], Code::JS_STR_SEPARATOR)){
+        if(isset($params['campType']) && $params['campType']){
             $params['campType'] = explode(Code::JS_STR_SEPARATOR, $params['campType']);
         }
         unset($params['aesStr']);
