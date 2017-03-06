@@ -65,7 +65,7 @@
                 		<?php foreach ($info['imageArr'] as $image):?>
                 			<span style="float: left;margin-right:8px;">
                     			<img src="/upload/<?php echo $image['content'];?>" style="max-width:100px;"></br>
-                    			<a href="#" onclick="delImg(<?php echo $image['id'];?>)" style="cursor:pointer;">删除</a>
+                    			<a href="javascript:void(0);" onclick="delImg(<?php echo $image['id'];?>)" style="cursor:pointer;">删除</a>
                     		</span>
                 		<?php endforeach;?>
                 		<?php if(!count($info['imageArr'])):?>

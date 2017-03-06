@@ -9,6 +9,8 @@ class Login extends ActiveRecord{
     
     const USERNAME_SESSION = "username_login";
     
+    const PHONE_CODE_SESSION = 'phone_code';
+    
     public static function getDb() {
         return Yii::$app->db_camp;
     }

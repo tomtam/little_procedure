@@ -48,6 +48,14 @@ use campaign\models\Login;
                     <a href="/user" <?php echo Yii::$app->controller->id == "user" ? "class='active'" : "";?>><i class="ui-analyse"></i>用户注册</a>
                     <div class="text">用户注册</div>
                 </li>
+                <li> 
+                    <a href="/theme" <?php echo Yii::$app->controller->id == "theme" ? "class='active'" : "";?>><i class="ui-custom"></i>主题管理</a>
+                    <div class="text">主题管理</div>
+                </li>
+                <li> 
+                    <a href="/share" <?php echo Yii::$app->controller->id == "share" ? "class='active'" : "";?>><i class="ui-view"></i>分享记录</a>
+                    <div class="text">分享记录</div>
+                </li>
                 <!-- 
                 <li> 
                     <a href="textbox.html"><i class="ui-manage"></i>权限管理</a>
@@ -57,14 +65,8 @@ use campaign\models\Login;
                     <a href="#"><i class="ui-asset"></i>权限审批</a>
                     <div class="text">权限审批</div>
                 </li>
-                <li> 
-                    <a href="#"><i class="ui-custom"></i>用户定制</a>
-                    <div class="text">用户定制</div>
-                </li>
-                <li> 
-                    <a href="#"><i class="ui-view"></i>日志查看</a>
-                    <div class="text">日志查看</div>
-                </li>
+                
+                
                  -->
               </ul>
 

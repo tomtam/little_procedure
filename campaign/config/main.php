@@ -15,6 +15,9 @@ return [
         'api' => [
             'class' => 'campaign\modules\api\Module',
         ],
+        'wap' => [
+            'class' => 'campaign\modules\wap\Module',
+        ],
     ],
     //---------------------------------------------
     'controllerNamespace' => 'campaign\controllers',
@@ -66,6 +69,26 @@ return [
                 'categories' => ['wx'],
                 'enableDatePrefix' => true,
                 'logFile' => '@app/runtime/logs/wx_info.log',
+                'logVars' => [''],
+                'maxFileSize' => 1024,
+                'maxLogFiles' => 20,
+                ],
+                [
+                'class' => 'common\components\FileTarget',
+                'levels' => ['info'],
+                'categories' => ['theme'],
+                'enableDatePrefix' => true,
+                'logFile' => '@app/runtime/logs/theme_info.log',
+                'logVars' => [''],
+                'maxFileSize' => 1024,
+                'maxLogFiles' => 20,
+                ],
+                [
+                'class' => 'common\components\FileTarget',
+                'levels' => ['info'],
+                'categories' => ['share'],
+                'enableDatePrefix' => true,
+                'logFile' => '@app/runtime/logs/share_info.log',
                 'logVars' => [''],
                 'maxFileSize' => 1024,
                 'maxLogFiles' => 20,

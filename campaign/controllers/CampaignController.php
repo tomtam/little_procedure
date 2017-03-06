@@ -9,6 +9,7 @@ use campaign\components\UploadImg;
 use campaign\models\Content;
 use campaign\models\Search;
 use campaign\models\Order;
+use campaign\models\Theme;
 
 class CampaignController extends BaseController{
     private $__camp_model;
@@ -78,6 +79,13 @@ class CampaignController extends BaseController{
         
         $origin_arr = $this->__camp_model->getOriginArr();
         
+        $themeArr = Theme::find()
+                            ->select(['id', 'title'])
+                            ->where(['isDel' => Code::NOT_DEL_STATUS])
+                            ->orderBy(['createTime'=>SORT_DESC])
+                            ->asArray()
+                            ->all();
+        
         $arr_render = array(
             'list' => $list,
             'count' => $count,
@@ -90,6 +98,7 @@ class CampaignController extends BaseController{
             'endTime' => $endTime,
             'originVal' => $origin,
             'title' => $title,
+            'themeArr' => $themeArr,
         );
         return $this->render("index", $arr_render);
     }
@@ -503,6 +512,43 @@ class CampaignController extends BaseController{
         }else{
             return Code::errorExit(Code::ERROR_CAMP_CANCEL_STICK);
         }
+    }
+    /**
+    * @date: 2017年2月23日 下午9:59:20
+    * @author: louzhiqiang
+    * @return:
+    * @desc:   设置主题
+    */
+    public function actionThemeSet(){
+        $themeId = Yii::$app->request->post("themeId");
+        $campIdList = trim(Yii::$app->request->post("campIdList"), Code::JS_STR_SEPARATOR);
+        if(!$themeId){
+            return json_encode(array(
+                'code' => Code::ERROR_PARAM_PARTIAL,
+                'info' => '没有设置主题',
+            ), JSON_UNESCAPED_UNICODE);
+        }
+        if(!$campIdList){
+            return json_encode(array(
+                'code' => Code::ERROR_PARAM_PARTIAL,
+                'info' => '没有设置活动',
+            ), JSON_UNESCAPED_UNICODE);
+        }
+        
+        $model_theme = Theme::findOne(['id' => $themeId]);
+        $model_theme->campList = join(array_filter(explode(Code::JS_STR_SEPARATOR, $campIdList.Code::JS_STR_SEPARATOR.$model_theme->campList)), Code::JS_STR_SEPARATOR);
+        $model_theme->updateTime = time();
+        $res = $model_theme->save();
+        if($res)
+            return json_encode(array(
+                'code' => Code::SUCC,
+                'info' => Code::$arr_code_status[Code::SUCC],
+            ), JSON_UNESCAPED_UNICODE); 
+        else
+            return json_encode(array(
+                'code' => Code::ERROR_CAMP_UPDATE,
+                'info' => Code::$arr_code_status[Code::ERROR_CAMP_UPDATE],
+            ), JSON_UNESCAPED_UNICODE);
     }
     public function afterAction($action, $result){
         exit($result);

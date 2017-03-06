@@ -9,6 +9,9 @@ class Code {
 	const SUCC = 200;
 	const ERROR_USER_INFO = '1001';
 	const ERROR_USER_NO_LOGIN = '1002';
+	const ERROR_USER_PHONE_EXISTS = '1003';
+	const ERROR_USER_PHONE_NOT_EXISTS = '1004';
+	const ERROR_USER_LOGIN = '1005';
 	
 	const ERROR_CAMP_INSERT = '2001';
 	const ERROR_CAMP_UPDATE = '2002';
@@ -25,6 +28,7 @@ class Code {
 	const ERROR_ORDER_EVA_PARAM_PARTIAL = '4004';
 	
 	const ERROR_VERIFY_CHECK = "5001";
+	const ERROR_STEP_SKIP = '5002';
 	
 	const ERROR_PARAM_PARTIAL = "6001";
 	const ERROR_PARAM_CHECK = "7001";
@@ -33,6 +37,9 @@ class Code {
 	    self::SUCC => '操作成功',
 	    self::ERROR_USER_INFO => '用户信息错误',
 	    self::ERROR_USER_NO_LOGIN => '用户未登录',
+	    self::ERROR_USER_PHONE_EXISTS => '手机号已存在',
+	    self::ERROR_USER_PHONE_NOT_EXISTS => '手机号未注册',
+	    self::ERROR_USER_LOGIN => '用户名或者密码不正确',
 	    
 	    self::ERROR_CAMP_INSERT => '插入失败',
 	    self::ERROR_CAMP_UPDATE => '更新失败',
@@ -48,6 +55,7 @@ class Code {
 	    self::ERROR_ORDER_NUM    => '订单数目错误',
 	    
 	    self::ERROR_VERIFY_CHECK => '验证码错误',
+	    self::ERROR_STEP_SKIP  => '禁止跳跃访问',
 	    
 	    self::ERROR_PARAM_PARTIAL => '参数缺失',
 	    self::ERROR_PARAM_CHECK   => '参数校验失败',
