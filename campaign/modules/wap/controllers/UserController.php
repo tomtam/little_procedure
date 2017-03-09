@@ -112,7 +112,7 @@ class UserController extends BaseController{
         $password = trim(Yii::$app->request->post('passwd'));
         $userName = trim(Yii::$app->request->post('userName'));
         
-        if(!$userName || $password){
+        if(!$userName || !$password){
             return Code::errorExit(Code::ERROR_PARAM_PARTIAL);
         }
         
