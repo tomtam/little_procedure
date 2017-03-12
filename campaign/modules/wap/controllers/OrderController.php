@@ -34,7 +34,6 @@ class OrderController extends BaseController{
             return Code::errorExit(Code::ERROR_ORDER_CAMPNUM);
         }
         $userInfo = User::findOne(['id'=>$userId]);
-        
         $userList_arr = json_decode($userList, true);
         
         if( count($userList_arr) != $num ){

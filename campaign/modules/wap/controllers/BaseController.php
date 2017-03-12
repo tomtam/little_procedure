@@ -4,6 +4,7 @@ namespace campaign\modules\wap\controllers;
 use Yii;
 use yii\rest\ActiveController;
 use campaign\components\Code;
+use campaign\models\User;
 
 class BaseController extends ActiveController{
     protected $userId;
@@ -18,21 +19,12 @@ class BaseController extends ActiveController{
     * @desc:   判断是否登陆
     */
     protected function getLoginStatus(){
-        if(!Yii::$app->request->post('sessionId')){
+        if(!Yii::$app->session[User::USER_LOGIN_STATUS_KEY]){
             Yii::info("---getLoginStatus cookie里无sessionId", 'api');
             exit(Code::errorExit(Code::ERROR_USER_NO_LOGIN));
         }
-        $res_json = Yii::$app->cache->get(Yii::$app->request->post('sessionId'));
-        if( !$res_json ){
-            Yii::info("---getLoginStatus 返回结果为空", 'api');
-            exit(Code::errorExit(Code::ERROR_USER_NO_LOGIN));
-        }
-        
-        $res_arr = json_decode($res_json, true); 
-        Yii::info("---getLoginStatus 用户数据：".$res_json, 'api');
-        
-        $this->userId = $res_arr['openid'];
-        $this->secret = $res_arr['session_key'];
+
+        $this->userId = Yii::$app->session[User::USER_LOGIN_STATUS_KEY];
         return true;
     }
 }

@@ -77,7 +77,7 @@ class UserController extends BaseController{
             return Code::errorExit(Code::ERROR_USER_PHONE_NOT_EXISTS);
         }
         
-        $model_user->passwd = md5($passwd);
+        $model_user->passwd = ($passwd);
         $model_user->save();
         
         return Code::errorExit(Code::SUCC);
@@ -131,13 +131,35 @@ class UserController extends BaseController{
             return Code::errorExit(Code::ERROR_USER_PHONE_NOT_EXISTS);
         }
         
-        if(md5($password) != $model_user['passwd']){
+        if(($password) != $model_user['passwd']){
             return Code::errorExit(Code::ERROR_USER_LOGIN);
         }
         
-        Yii::$app->session[User::USER_LOGIN_STATUS_KEY] = true;
+        Yii::$app->session[User::USER_LOGIN_STATUS_KEY] = $model_user['id'];
         
         return Code::errorExit(Code::SUCC);
+    }
+    /**
+     * 获得登录状态
+     */
+    public function actionLoginStatus(){
+	if( Yii::$app->session[User::USER_LOGIN_STATUS_KEY] ){
+		return Code::errorExit(Code::SUCC);
+	}
+	return Code::errorExit(Code::ERROR_USER_NO_LOGIN); 
+    }
+    //获得用户信息
+    public function actionInfo(){
+	if(!Yii::$app->session[User::USER_LOGIN_STATUS_KEY]){
+		return Code::errorExit(Code::ERROR_USER_NO_LOGIN);
+	}
+	$userInfo = User::find()->where(['id' => Yii::$app->session[User::USER_LOGIN_STATUS_KEY]])->asArray()->one();
+	
+        return json_encode(array(
+		'code' => Code::SUCC,
+		'info' => Code::$arr_code_status[Code::SUCC],
+		'data' => $userInfo,
+	), JSON_UNESCAPED_UNICODE);
     }
     public function afterAction($action, $result){
         exit($result);

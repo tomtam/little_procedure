@@ -70,6 +70,9 @@ class Code {
 	 * @var unknown
 	 */
 	const JS_STR_SEPARATOR = ",";
+
+	const STR_RN = "\r\n";
+	const STR_HTML_BR = "<br>";
 	/**
 	* @date: 2016年12月19日 下午2:20:39
 	* @author: louzhiqiang

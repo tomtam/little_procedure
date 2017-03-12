@@ -39,6 +39,9 @@ class ShareController extends BaseController{
                     return "/upload/".$v;
                 }, $imgArr);
                 $list[$k]['content'] = $imgArrRes;
+		$list[$k]['image_first'] = $imgArrRes[0];
+		$list[$k]['image_sec'] = $imgArrRes[1];
+		$list[$k]['image_third'] = $imgArrRes[2];
             }
             $list[$k]['createTime'] = date("Y-m-d H:i:s", $shareItem['createTime']);
         }
@@ -46,7 +49,6 @@ class ShareController extends BaseController{
         $count = Share::find()
                     ->where($where)
                     ->count();
-        
         return json_encode(array(
             'code' => Code::SUCC,
             'info' => Code::$arr_code_status[Code::SUCC],
