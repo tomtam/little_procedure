@@ -7,10 +7,10 @@ use campaign\components\Code;
 
 class Campaign extends ActiveRecord{
     public static $campTypeArr = array(
-        '徒步','登山','跑步','越野','自由行'
+        '徒步', '户外摄影', '骑行', '露营', '冲浪', '帆船', '漂流', '观鸟', '踏青', '越野跑', '马拉松', '向导', '进藏', '登山'
     );
     public static $campLocationNameArr = array(
-        '上海', '北京', '四川', '内蒙古'
+        '北京', '河北', '江苏', '西藏', '海南', '安徽', '江西', '贵州', '福建', '日本', '美国', '俄罗斯', '加拿大', '南北极', '四川'
     );
     public function getList($where, $page, $pageSize){
         return self::find()
