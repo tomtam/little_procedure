@@ -69,12 +69,13 @@ class CampaignController extends BaseController{
             foreach($list as $camp){
                 $arrTmp[$camp['id']] = $camp;
             }
+	    $list = array();
             foreach($arrids as $campId=>$num){
                 if($arrTmp[$campId]){
-                    $list[] = $$arrTmp[$campId];
+                    $list[] = $arrTmp[$campId];
                 }
             }
-            $list[] = array_slice($arrTmp, ($page-1) * $this->__perNum, $this->__perNum);
+            $list = array_slice($list, ($page-1) * $this->__perNum, $this->__perNum);
         }else{
         $list = Campaign::find()
                         ->where($where)
