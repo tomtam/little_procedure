@@ -99,7 +99,7 @@ class UserController extends BaseController{
         
         //发送手机验证码
         
-        $code = '123456';
+        $code = rand(100000, 999999);
 	$accesskeyid = "LTAIzb9NF6L2AYtJ";
 	$accesskeysecret = "SEkvsn6qXntLYfq4PeQ19gVRdbVdAW";
 	$smstempcode = "SMS_50820106";
