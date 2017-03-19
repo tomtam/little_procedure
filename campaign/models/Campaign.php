@@ -4,13 +4,14 @@ namespace campaign\models;
 use Yii;
 use yii\db\ActiveRecord;
 use campaign\components\Code;
+use campaign\models\Search;
 
 class Campaign extends ActiveRecord{
     public static $campTypeArr = array(
-        '徒步', '户外摄影', '骑行', '露营', '冲浪', '帆船', '漂流', '观鸟', '踏青', '越野跑', '马拉松', '向导', '进藏', '登山'
+        '徒步', '钓鱼', '户外摄影', '骑行', '露营', '冲浪', '帆船', '漂流', '观鸟', '踏青', '越野跑', '马拉松', '向导', '进藏', '登山'
     );
     public static $campLocationNameArr = array(
-        '北京', '河北', '江苏', '西藏', '海南', '安徽', '江西', '贵州', '福建', '日本', '美国', '俄罗斯', '加拿大', '南北极', '四川'
+        '北京', '云南', '河北', '江苏', '西藏', '海南', '安徽', '江西', '贵州', '福建', '日本', '美国', '俄罗斯', '加拿大', '南北极', '四川'
     );
     public function getList($where, $page, $pageSize){
         return self::find()
@@ -20,6 +21,18 @@ class Campaign extends ActiveRecord{
                         ->offset(($page - 1) * $pageSize)
                         ->asArray()
                         ->all();
+    }
+    /**
+      * 根据关键字去反向匹配需要的字符串
+      */
+    public function getIdByKeyword($keyword){
+	$arrKeyword = Search::find()->where(['fieldName'=>Search::FIELD_KEYWORD])->asArray()->all();
+	foreach($arrKeyword as $val){
+	    if(strpos($keyword, $val['content']) !== false){
+		$arr[$val['campId']]++;
+	    }
+	}
+	return $arr;
     }
     
     public function getCount($where){

@@ -100,6 +100,8 @@ class OrderController extends BaseController{
             $list[$key]['campInfo'] = array(
                 'headImg' => Content::getImagePath($headImg['content']),
             );
+	    $list[$key]['destination'] = $campInfo['destination'];
+	    $list[$key]['headImg'] = Content::getImagePath($headImg['content']);
             $list[$key]['statusMark'] = Order::$arr_order_status[$list[$key]['status']];
             $list[$key]['mark'] = json_decode($order['mark'], true);
             

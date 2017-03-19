@@ -10,6 +10,7 @@ class Search extends ActiveRecord{
      * @var unknown
      */
     const FIELD_TYPE = "campType";
+    const FIELD_KEYWORD = "campKeyword";
     public static function getDb() {
         return Yii::$app->db_camp;
     }

@@ -51,6 +51,11 @@
                     <span></span></td>
                 </tr>
                 <tr>
+                  <td align="right"><p><span class="require">* </span>活动关键字：</p></td>
+                  <td align="left"><input type="text" name="campKeyword" id="campKeyword"  class="input" value="<?php echo $info['campKeyword'];?>" placeholder="多个关键字请用逗号间隔"/>
+                    <span></span></td>
+                </tr>
+                <tr>
                   <td align="right"><span class="require">* </span>活动种类：</td>
                   <td align="left">
                   	  <?php foreach($campTypeArr as $campTypeId=>$campTypeName): ?>
@@ -120,6 +125,46 @@
 <script>
 	$(document).ready(function(){
 		$("#campAddButton").click(function(){
+			if(!$("input[name='title']").val()){
+                                alert("请填写标题");
+                                return false;
+                        }
+                        if(!$("input[name='rendezvous']").val()){
+                                alert("请填集合地");
+                                return false;
+                        }
+                        if(!$("input[name='destination']").val()){
+                                alert("请填写目的地");
+                                return false;
+                        }
+                        if(!$("input[name='price']").val()){
+                                alert("请填写价格");
+                                return false;
+                        }
+			if(!$("input[name='origin']").val()){
+                                alert("请填写来源");
+                                return false;
+                        }
+                        if(!$("input[name='totalNum']").val()){
+                                alert("请填写活动人数");
+                                return false;
+                        }
+                        if(!$("input[name='beginTime']").val()){
+                                alert("请填写开始时间");
+                                return false;
+                        }
+                        if(!$("input[name='endTime']").val()){
+                                alert("请填写结束时间");
+                                return false;
+                        }
+                        if(!$("input[name='locationName']").val()){
+                                alert("请填写活动所在市");
+                                return false;
+                        }
+                        if(!$("input[name='campKeyword']").val()){
+                                alert("请填写活动关键字");
+                                return false;
+                        }
 			$("form").submit();
 		});
 	});

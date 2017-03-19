@@ -39,7 +39,7 @@ class CampaignController extends BaseController{
         $where[] = ['isDel' => Code::NOT_DEL_STATUS];
         $where[] = ['isStick' => 0];
         if(isset($campId) && $campId){
-            $where[] = ['campId' => $campId];
+            $where[] = ['id' => $campId];
         }
         if(count(array_filter(explode(Code::JS_STR_SEPARATOR, $locationName)))){
             foreach (array_filter(explode(Code::JS_STR_SEPARATOR, $locationName)) as $locationNameOne){
@@ -47,9 +47,26 @@ class CampaignController extends BaseController{
             }
         }
         if($keyword){
-            $where[] = ['like', 'title', $keyword];
+	    $model_camp= new Campaign();
+	    $arrids = $model_camp->getIdByKeyword($keyword);
+	    arsort($arrids);
+            $where[] = ['id' => array_keys($arrids)];
         }
-        
+        if($keyword){
+	    $list = Campaign::find()
+				->where($where)
+				->asArray()
+				->all();
+	    foreach($list as $camp){
+		$arrTmp[$camp['id']] = $camp;
+	    }
+	    foreach($arrids as $campId=>$num){
+		if($arrTmp[$campId]){
+		    $list[] = $$arrTmp[$campId];
+		}
+	    }
+	    $list[] = array_slice($arrTmp, ($page-1) * $this->__perNum, $this->__perNum);
+	}else{
         $list = Campaign::find()
                         ->where($where)
                         ->orderBy(['updateTime'=>SORT_DESC])
@@ -57,6 +74,7 @@ class CampaignController extends BaseController{
                         ->offset(($page - 1) * $this->__perNum)
                         ->asArray()
                         ->all();
+	}
         if(count($list)){
             foreach ($list as $k=>$campaign){
                 $headImg = Content::find()

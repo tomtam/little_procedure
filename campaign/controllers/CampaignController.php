@@ -121,17 +121,18 @@ class CampaignController extends BaseController{
     * @desc:   添加
     */
     public function actionAddDo(){
-        $title          = Yii::$app->request->post('title');
-        $destination    = Yii::$app->request->post('destination');//目的地
-        $rendezvous     = Yii::$app->request->post('rendezvous');//集合地
-        $price          = Yii::$app->request->post('price');//单价
-        $origin         = Yii::$app->request->post('origin');//来源
-        $totalNum       = Yii::$app->request->post('totalNum');//活动人数
-        $beginTime      = strtotime(Yii::$app->request->post('beginTime'));//开始时间
-        $endTime        = strtotime(Yii::$app->request->post('endTime'));//结束时间
+        $title          = Yii::$app->request->post('title', '');
+        $destination    = Yii::$app->request->post('destination', '');//目的地
+        $rendezvous     = Yii::$app->request->post('rendezvous', '');//集合地
+        $price          = Yii::$app->request->post('price', '0.00');//单价
+        $origin         = Yii::$app->request->post('origin', '');//来源
+        $totalNum       = Yii::$app->request->post('totalNum', 0);//活动人数
+        $beginTime      = strtotime(Yii::$app->request->post('beginTime', ''));//开始时间
+        $endTime        = strtotime(Yii::$app->request->post('endTime', ''));//结束时间
         $dayNum         = $endTime > $beginTime ? ceil(($endTime - $beginTime) / 86400) : 1;//活动天数 
         $campType       = Yii::$app->request->post('campType') ? Code::STR_SEPARATOR. join(Yii::$app->request->post('campType'), Code::STR_SEPARATOR) .Code::STR_SEPARATOR : '';//活动种类
-        $locationName   = trim(Yii::$app->request->post('locationName'));//活动所在地
+        $locationName   = trim(Yii::$app->request->post('locationName', ''));//活动所在地
+        $campKeyword   = trim(Yii::$app->request->post('campKeyword', ''));//活动关键字
         
         //存储图片
         $_FILES['campImg']['name'] = array_filter($_FILES['campImg']['name']);
@@ -237,6 +238,16 @@ class CampaignController extends BaseController{
                     $model_search->save();
                 }
             }
+	    if($campKeyword){
+		$arrCampKeyword = explode(Code::JS_STR_SEPARATOR, $campKeyword);
+		foreach($arrCampKeyword as $campK){
+		    $model_search = new Search();
+		    $model_search->campId = $result_insert_id;
+		    $model_search->fieldName = Search::FIELD_KEYWORD;
+		    $model_search->content = $campK;
+		    $model_search->save();
+		}
+	    }
             $tx->commit();
         }catch (\yii\db\IntegrityException $e){
             $tx->rollback();
@@ -311,6 +322,12 @@ class CampaignController extends BaseController{
                 return true;
             }
         });
+	$arrCampKeyword = Search::find()->where(['campId'=>$id, 'fieldName'=>Search::FIELD_KEYWORD])->asArray()->all();
+	$arrInfoCampKeyword = array();
+	foreach($arrCampKeyword as $keyword){
+	    $arrInfoCampKeyword[] = $keyword['content'];
+	}
+	$info['campKeyword'] = join(Code::JS_STR_SEPARATOR, $arrInfoCampKeyword);
         $arr_render = array(
             'info' => $info,
             'campTypeArr' => Campaign::$campTypeArr,
@@ -341,17 +358,18 @@ class CampaignController extends BaseController{
     * @desc:   更新动作
     */
     public function actionUpdateDo(){
-        $title          = Yii::$app->request->post('title');
-        $destination    = Yii::$app->request->post('destination');//目的地
-        $rendezvous     = Yii::$app->request->post('rendezvous');//集合地
-        $price          = Yii::$app->request->post('price');//单价
-        $origin         = Yii::$app->request->post('origin');//来源
-        $totalNum       = Yii::$app->request->post('totalNum');//活动人数
-        $beginTime      = strtotime(Yii::$app->request->post('beginTime'));//开始时间
-        $endTime        = strtotime(Yii::$app->request->post('endTime'));//结束时间
+        $title          = Yii::$app->request->post('title', '');
+        $destination    = Yii::$app->request->post('destination', '');//目的地
+        $rendezvous     = Yii::$app->request->post('rendezvous', '');//集合地
+        $price          = Yii::$app->request->post('price', '0.00');//单价
+        $origin         = Yii::$app->request->post('origin', '');//来源
+        $totalNum       = Yii::$app->request->post('totalNum', 0);//活动人数
+        $beginTime      = strtotime(Yii::$app->request->post('beginTime', ''));//开始时间
+        $endTime        = strtotime(Yii::$app->request->post('endTime', ''));//结束时间
         $dayNum         = $endTime > $beginTime ? ceil(($endTime - $beginTime) / 86400) : 1;//活动天数 
         $campType       = Yii::$app->request->post('campType') ? Code::STR_SEPARATOR. join(Yii::$app->request->post('campType'), Code::STR_SEPARATOR) .Code::STR_SEPARATOR : '';//活动种类 
-        $locationName   = Yii::$app->request->post('locationName');//活动所在地
+        $locationName   = Yii::$app->request->post('locationName', '');//活动所在地
+        $campKeyword   = Yii::$app->request->post('campKeyword', '');//活动关键字
         $id = Yii::$app->request->post('id');
         //存储图片
         $_FILES['campImg']['name'] = array_filter($_FILES['campImg']['name']);
@@ -445,6 +463,17 @@ class CampaignController extends BaseController{
                     $model_search->save();
                 }
             }
+	    if($campKeyword){
+		$arrCampKeyword = explode(Code::JS_STR_SEPARATOR, $campKeyword);
+		Yii::$app->db_camp->createCommand("delete from campaign_search where campId={$id} and fieldName='".Search::FIELD_KEYWORD."'")->execute();
+		foreach($arrCampKeyword as $campK){
+		    $model_search = new Search();
+		    $model_search->campId = $id;
+		    $model_search->fieldName = Search::FIELD_KEYWORD;
+		    $model_search->content = $campK;
+		    $model_search->save();
+		}
+	    }
             //更新订单里的title数据
             $order_model = new Order();
             $order_model->updateCampTitle($title, $id);
