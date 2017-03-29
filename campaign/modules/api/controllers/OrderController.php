@@ -186,7 +186,7 @@ class OrderController extends BaseController{
         $wechatPay = new WechatPay(Yii::$app->params['appId'], $this->userId, Yii::$app->params['mchId'], $notify_url, Yii::$app->params['orderKey']);
         $params['body'] = '活动购买'; //商品描述
         $params['out_trade_no'] = $orderId; //自定义的订单号
-        $params['total_fee'] = '1'; //订单金额 只能为整数 单位为分
+        $params['total_fee'] = ($orderInfo['amount'] * 100); //订单金额 只能为整数 单位为分
         $params['trade_type'] = 'JSAPI'; //交易类型 JSAPI | NATIVE | APP | WAP
         $result = $wechatPay->unifiedOrder( $params );
         //Yii::info("-----下单信息返回：".print_r($result, true), "order");
