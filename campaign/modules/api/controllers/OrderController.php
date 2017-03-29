@@ -74,10 +74,11 @@ class OrderController extends BaseController{
             Yii::info("-----------添加订单失败------".$message, 'order');
             return Code::errorExit(Code::ERROR_ORDER_CREATE);
         }
+	$orderInfo = Order::find()->where(["userId"=>$userId])->orderBy(['createTime'=>SORT_DESC])->limit(1)->asArray()->one();
         return json_encode(array(
             'code' => Code::SUCC,
             'info' => Code::$arr_code_status[Code::SUCC],
-            'data' => $result_insert
+            'data' => $orderInfo['id']
         ), JSON_UNESCAPED_UNICODE);
     }
     /**
@@ -204,10 +205,11 @@ class OrderController extends BaseController{
      * 获得加密参数
      */
     public function actionSign(){
-        $params['timeStmp'] = Yii::$app->request->post("timeStamp");
+        $params['timeStamp'] = Yii::$app->request->post("timeStamp");
         $params['nonceStr'] = Yii::$app->request->post('nonceStr');
         $params['package']  = Yii::$app->request->post("package");
         $params['signType'] = Yii::$app->request->post("signType");
+        $params['appId'] = Yii::$app->request->post("appId");
 
         ksort($params);
 
@@ -221,7 +223,7 @@ class OrderController extends BaseController{
         return json_encode(array(
             'code' => Code::SUCC,
             'info' => Code::$arr_code_status[Code::SUCC],
-            'data' => $string,
+            'data' => $result,
         ), JSON_UNESCAPED_UNICODE);
     }
     private function ToUrlParams( $params ){
@@ -229,7 +231,11 @@ class OrderController extends BaseController{
         if( !empty($params) ){
             $array = array();
             foreach( $params as $key => $value ){
-                $array[] = $key.'='.$value;
+		if($key == 'package'){
+			$array[] = $key.'='.$value.'';
+		}else{
+               		$array[] = $key.'='.$value;
+		}		
             }
             $string = implode("&",$array);
         }
