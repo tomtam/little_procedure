@@ -15,6 +15,8 @@ class WechatPay
     const CLOSEORDER_URL = "/pay/closeorder";
     //公众账号ID
     private $appid;
+    //JSAPI需要openId
+    private $openid;
     //商户号
     private $mch_id;
     //随机字符串
@@ -41,9 +43,10 @@ class WechatPay
     //所有参数
     private $params = array();
 
-    public function __construct($appid, $mch_id, $notify_url, $key)
+    public function __construct($appid, $openid, $mch_id, $notify_url, $key)
     {
         $this->appid = $appid;
+        $this->openid = $openid;
         $this->mch_id = $mch_id;
         $this->notify_url = $notify_url;
         $this->key = $key;
@@ -60,6 +63,7 @@ class WechatPay
         $this->nonce_str = $this->genRandomString();
         $this->spbill_create_ip = $_SERVER['REMOTE_ADDR'];
         $this->params['appid'] = $this->appid;
+        $this->params['openid'] = $this->openid;
         $this->params['mch_id'] = $this->mch_id;
         $this->params['nonce_str'] = $this->nonce_str;
         $this->params['body'] = $this->body;

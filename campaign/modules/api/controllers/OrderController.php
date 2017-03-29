@@ -178,7 +178,7 @@ class OrderController extends BaseController{
 
         $notify_url  = "http://www.ioutdoor.org/api/order/payCallback";
 
-        $wechatPay = new WechatPay(Yii::$app->params['appId'], Yii::$app->params['mchId'], $notify_url, Yii::$app->params['orderKey']);
+        $wechatPay = new WechatPay(Yii::$app->params['appId'], $this->userId, Yii::$app->params['mchId'], $notify_url, Yii::$app->params['orderKey']);
         $params['body'] = '商品描述'; //商品描述
         $params['out_trade_no'] = 'O20160617021323-001'; //自定义的订单号
         $params['total_fee'] = '1'; //订单金额 只能为整数 单位为分
