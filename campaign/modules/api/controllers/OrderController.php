@@ -1,6 +1,7 @@
 <?php
 namespace campaign\modules\api\controllers;
 
+use campaign\components\XUtils;
 use Yii;
 use campaign\models\Order;
 use campaign\models\Campaign;
@@ -8,6 +9,7 @@ use campaign\components\Code;
 use campaign\models\Content;
 use campaign\models\Evaluate;
 use campaign\models\User;
+use campaign\components\WechatPay;
 
 class OrderController extends BaseController{
     public $modelClass = '';
@@ -161,6 +163,48 @@ class OrderController extends BaseController{
         $order_model->save();
         
         return Code::errorExit(Code::SUCC);
+    }
+    /**
+     * 微信支付请求第三方支付
+     */
+    public function actionPay(){
+        $orderId = Yii::$app->request->post('orderId');
+        $orderId = '123';
+        if(!$orderId){
+            return Code::errorExit(Code::ERROR_PARAM_PARTIAL);
+        }
+
+        $orderInfo = Order::findOne(['id'=>$orderId]);
+
+        $notify_url  = "http://www.ioutdoor.org/api/order/payCallback";
+
+        $wechatPay = new WechatPay(Yii::$app->params['appId'], Yii::$app->params['mchId'], $notify_url, Yii::$app->params['orderKey']);
+        $params['body'] = '商品描述'; //商品描述
+        $params['out_trade_no'] = 'O20160617021323-001'; //自定义的订单号
+        $params['total_fee'] = '1'; //订单金额 只能为整数 单位为分
+        $params['trade_type'] = 'JSAPI'; //交易类型 JSAPI | NATIVE | APP | WAP
+        $result = $wechatPay->unifiedOrder( $params );
+
+        var_dump($result);die;
+        /*
+        $params['attach']      = '付款测试';
+        $params['body']        = "ioutdoor活动付款";
+        $params['mch_id']      = Yii::$app->params['mchId'];
+        $params['notify_url']  = "http://www.ioutdoor.org/api/order/payCallback";
+        $params['nonce_str']   = XUtils::getURandom();
+        $params['out_trade_no']  = $orderId;
+        $params['spbill_create_ip']  = XUtils::get_client_ip();
+        $params['total_fee']  = 1;
+        $params['trade_type']  = 'JSAPI';
+        $params['time_start']  = date("YmdHis");
+        $params['time_expire']   = date("YmdHis", strtotime("+1 day"));
+        $params['openid']      = $this->userId;
+        Yii::info("-----order create to wx----param is ".print_r($params, true), 'order');
+        $params['sign'] = strtoupper(md5(http_build_query($params)."&key=".Yii::$app->params['orderKey']));
+        Yii::info("-----order create to wx----sign is ".$params['sign'], 'order');
+        */
+
+
     }
     public function afterAction($action, $result){
         exit($result);
