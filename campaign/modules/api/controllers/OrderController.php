@@ -74,7 +74,11 @@ class OrderController extends BaseController{
             Yii::info("-----------添加订单失败------".$message, 'order');
             return Code::errorExit(Code::ERROR_ORDER_CREATE);
         }
-        return Code::errorExit(Code::SUCC);
+        return json_encode(array(
+            'code' => Code::SUCC,
+            'info' => Code::$arr_code_status[Code::SUCC],
+            'data' => $result_insert
+        ), JSON_UNESCAPED_UNICODE);
     }
     /**
     * @date: 2017年1月21日 下午4:41:23
@@ -169,42 +173,67 @@ class OrderController extends BaseController{
      */
     public function actionPay(){
         $orderId = Yii::$app->request->post('orderId');
-        $orderId = '123';
+        Yii::info("-----参数的订单id是：".$orderId, 'order');
         if(!$orderId){
             return Code::errorExit(Code::ERROR_PARAM_PARTIAL);
         }
 
         $orderInfo = Order::findOne(['id'=>$orderId]);
 
-        $notify_url  = "http://www.ioutdoor.org/api/order/payCallback";
+        $notify_url  = "http://www.ioutdoor.org/api/order/pay-callback";
 
         $wechatPay = new WechatPay(Yii::$app->params['appId'], $this->userId, Yii::$app->params['mchId'], $notify_url, Yii::$app->params['orderKey']);
-        $params['body'] = '商品描述'; //商品描述
-        $params['out_trade_no'] = 'O20160617021323-001'; //自定义的订单号
+        $params['body'] = '活动购买'; //商品描述
+        $params['out_trade_no'] = $orderId; //自定义的订单号
         $params['total_fee'] = '1'; //订单金额 只能为整数 单位为分
         $params['trade_type'] = 'JSAPI'; //交易类型 JSAPI | NATIVE | APP | WAP
         $result = $wechatPay->unifiedOrder( $params );
+        Yii::info("-----下单信息返回：".print_r($result, true), "order");
+        return json_encode(array(
+            'code' => Code::SUCC,
+            'info' => Code::$arr_code_status[Code::SUCC],
+            'data' => $result
+        ), JSON_UNESCAPED_UNICODE);
+    }
+    public function actionPayCallback(){
+        Yii::info("----支付回调的结果：".print_r(Yii::$app->request->post(), true), 'order');
+        Yii::info("----支付回调的结果：".print_r(Yii::$app->request->get(), true), 'order');
+    }
 
-        var_dump($result);die;
-        /*
-        $params['attach']      = '付款测试';
-        $params['body']        = "ioutdoor活动付款";
-        $params['mch_id']      = Yii::$app->params['mchId'];
-        $params['notify_url']  = "http://www.ioutdoor.org/api/order/payCallback";
-        $params['nonce_str']   = XUtils::getURandom();
-        $params['out_trade_no']  = $orderId;
-        $params['spbill_create_ip']  = XUtils::get_client_ip();
-        $params['total_fee']  = 1;
-        $params['trade_type']  = 'JSAPI';
-        $params['time_start']  = date("YmdHis");
-        $params['time_expire']   = date("YmdHis", strtotime("+1 day"));
-        $params['openid']      = $this->userId;
-        Yii::info("-----order create to wx----param is ".print_r($params, true), 'order');
-        $params['sign'] = strtoupper(md5(http_build_query($params)."&key=".Yii::$app->params['orderKey']));
-        Yii::info("-----order create to wx----sign is ".$params['sign'], 'order');
-        */
+    /**
+     * 获得加密参数
+     */
+    public function actionSign(){
+        $params['timeStmp'] = Yii::$app->request->post("timeStamp");
+        $params['nonceStr'] = Yii::$app->request->post('nonceStr');
+        $params['package']  = Yii::$app->request->post("package");
+        $params['signType'] = Yii::$app->request->post("signType");
 
+        ksort($params);
 
+        $string = $this->ToUrlParams($params);
+        //签名步骤二：在string后加入KEY
+        $string = $string . "&key=".Yii::$app->params['orderKey'];
+        //签名步骤三：MD5加密
+        $string = md5($string);
+        //签名步骤四：所有字符转为大写
+        $result = strtoupper($string);
+        return json_encode(array(
+            'code' => Code::SUCC,
+            'info' => Code::$arr_code_status[Code::SUCC],
+            'data' => $string,
+        ), JSON_UNESCAPED_UNICODE);
+    }
+    private function ToUrlParams( $params ){
+        $string = '';
+        if( !empty($params) ){
+            $array = array();
+            foreach( $params as $key => $value ){
+                $array[] = $key.'='.$value;
+            }
+            $string = implode("&",$array);
+        }
+        return $string;
     }
     public function afterAction($action, $result){
         exit($result);
