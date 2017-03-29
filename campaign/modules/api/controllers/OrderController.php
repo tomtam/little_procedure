@@ -241,6 +241,13 @@ class OrderController extends BaseController{
         }
         return $string;
     }
+    public function actionDel(){
+        $orderId = Yii::$app->request->post("orderId");
+        $model = Order::findOne($orderId);
+        $model->delete();
+        return Code::errorExit(Code::SUCC);
+
+    }
     public function afterAction($action, $result){
         exit($result);
     }
