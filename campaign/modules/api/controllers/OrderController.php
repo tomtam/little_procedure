@@ -157,7 +157,7 @@ class OrderController extends BaseController{
                                ->where(['id'=> $orderId])
                                ->asArray()
                                ->one();
-        Yii::info("----插入评价时查到的订单信息：".print_r($orderInfo, true), 'order');
+        //Yii::info("----插入评价时查到的订单信息：".print_r($orderInfo, true), 'order');
         $eva_model->campId = $orderInfo['campId'];
         
         $eva_model->save();
@@ -188,7 +188,7 @@ class OrderController extends BaseController{
         $params['total_fee'] = '1'; //订单金额 只能为整数 单位为分
         $params['trade_type'] = 'JSAPI'; //交易类型 JSAPI | NATIVE | APP | WAP
         $result = $wechatPay->unifiedOrder( $params );
-        Yii::info("-----下单信息返回：".print_r($result, true), "order");
+        //Yii::info("-----下单信息返回：".print_r($result, true), "order");
         return json_encode(array(
             'code' => Code::SUCC,
             'info' => Code::$arr_code_status[Code::SUCC],
