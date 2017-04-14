@@ -75,17 +75,17 @@
                         <input type="hidden" id="select_value">
                         <div class="i-list">
                             	<?php if($page > 1):?> 
-                            		<span><a href="/theme/index?page=1&title=<?php echo $title;?>">首页</a></span>
+                            		<span><a href="/share/index?page=1&title=<?php echo $title;?>">首页</a></span>
                             	<?php endif;?>
                             	<?php foreach ($pageArr as $pageVal):?>
                             		<?php if($page == $pageVal):?>
                             			<span class="active"><?php echo $pageVal;?></span>
                             		<?php else: ?>
-                            			<a href="/theme/index?page=<?php echo $pageVal;?>&title=<?php echo $title;?>"><?php echo $pageVal;?></a>
+                            			<a href="/share/index?page=<?php echo $pageVal;?>&title=<?php echo $title;?>"><?php echo $pageVal;?></a>
                             		<?php endif;?>
                             	<?php endforeach;?>
                             	<?php if($page < $totalPage):?> 
-                            		<a href="/theme/index?page=<?php echo $totalPage;?>&title=<?php echo $title;?>">末页</a> 
+                            		<a href="/share/index?page=<?php echo $totalPage;?>&title=<?php echo $title;?>">末页</a> 
                             	<?php endif;?>
                         </div>
                         <div class="clear"></div>

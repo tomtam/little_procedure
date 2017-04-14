@@ -28,7 +28,7 @@ class CampaignController extends BaseController{
         //查找指定数据
         if($campType){
             $campId = array();
-            $arrCampType = array_filter(explode(Code::STR_SEPARATOR, $campType));
+            $arrCampType = array_filter(explode(Code::JS_STR_SEPARATOR, $campType));
             foreach ($arrCampType as $k=>$camp){
                 $arrCampRes[] = array_search($camp, Campaign::$campTypeArr);
             }
@@ -36,7 +36,7 @@ class CampaignController extends BaseController{
             foreach ($arrCampId as $search){
                 $campId[] = $search['campId'];
             }
-            $campId = array_filter($campId);
+            $campId = array_unique(array_filter($campId));
         }
         
         $where = ['and'];
@@ -45,19 +45,26 @@ class CampaignController extends BaseController{
         if(isset($campId) && $campId){
             $where[] = ['id' => $campId];
         }
-        if(count(array_filter(explode(Code::JS_STR_SEPARATOR, $locationName)))){
+	$locationNameCount = count(array_filter(explode(Code::JS_STR_SEPARATOR, $locationName)));
+        if($locationNameCount){
+	    if($locationNameCount == 1){
+		$where[] = ['locationName' => $locationName];
+	    }else{
             $where_or = ['or'];
             foreach (array_filter(explode(Code::JS_STR_SEPARATOR, $locationName)) as $locationNameOne){
-                $where_or[] = ['like','locationName',$locationNameOne];
+                $where_or[] = ['locationName' => $locationNameOne];
             }
             
             $where[] = $where_or;
+	    }
         }
         if($keyword){
 	    $model_camp= new Campaign();
             $arrids = $model_camp->getIdByKeyword($keyword);
-            arsort($arrids);
-            $where[] = ['id' => array_keys($arrids)];
+	    if($arrids){
+            	arsort($arrids);
+            	$where[] = ['id' => array_keys($arrids)];
+	    }
         }
         Yii::info("---查询的sql语句是：".Campaign::find()
                         ->where($where)->createCommand()->getRawSql(), 'api');
@@ -66,16 +73,20 @@ class CampaignController extends BaseController{
                                 ->where($where)
                                 ->asArray()
                                 ->all();
+	    if(count($list)){
             foreach($list as $camp){
                 $arrTmp[$camp['id']] = $camp;
             }
+	    }
 	    $list = array();
+	    if(count($arrids)){
             foreach($arrids as $campId=>$num){
                 if($arrTmp[$campId]){
                     $list[] = $arrTmp[$campId];
                 }
             }
             $list = array_slice($list, ($page-1) * $this->__perNum, $this->__perNum);
+	    }
         }else{
         $list = Campaign::find()
                         ->where($where)

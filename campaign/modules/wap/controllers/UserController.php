@@ -25,9 +25,10 @@ class UserController extends BaseController{
     * @desc:   注册添加
     */
     public function actionRegister(){
-        $vcode = Yii::$app->request->post('vcode');
+        $vcode = Yii::$app->request->post('phoneCode');
         $phone = Yii::$app->request->post('phone');
-        $password = Yii::$app->request->post('password');
+        $password = Yii::$app->request->post('passwd');
+	$reset = Yii::$app->request->post("reset", "");
         
         if(!$password || !$phone || !$vcode){
             return Code::errorExit(Code::ERROR_PARAM_PARTIAL);
@@ -38,7 +39,7 @@ class UserController extends BaseController{
         }
         
         $model_user = User::findOne(['phone' => $phone]);
-        if ($model_user){
+        if ($model_user && !$reset){
             return Code::errorExit(Code::ERROR_USER_PHONE_EXISTS);
         }
         
@@ -53,7 +54,10 @@ class UserController extends BaseController{
             $model_user->source = User::USER_SOURCE_WAP;
             $model_user->passwd = $password;
             $model_user->save();
-        }
+        }else{
+	    $model_user->passwd = $password;
+            $model_user->save();
+	}
         
         return Code::errorExit(Code::SUCC);
     }

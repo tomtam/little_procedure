@@ -148,7 +148,7 @@
 				alert("请补充头像图片");
 				return false;
 			}
-			if(!$("input[name='campImg']").val()){
+			if(!$("input[name='campImg\[\]']").val()){
 				alert("请补充图片");
 				return false;
 			}

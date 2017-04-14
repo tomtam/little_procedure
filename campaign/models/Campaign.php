@@ -8,10 +8,64 @@ use campaign\models\Search;
 
 class Campaign extends ActiveRecord{
     public static $campTypeArr = array(
-        '徒步', '钓鱼', '户外摄影', '骑行', '露营', '冲浪', '帆船', '漂流', '观鸟', '踏青', '越野跑', '马拉松', '向导', '进藏', '登山'
+	    '徒步',
+            '行摄',
+            '骑行',
+            '露营',
+            '登山',
+            '钓鱼',
+            '滑雪',
+            '漂流',
+            '冲浪',
+            '帆船',
+            '潜水',
+            '观星',
+            '观鸟',
+            '攀岩',
+            '轮滑',
+            '越野',
+            '马拉松',
+            '广场舞',
+            '自驾',
+            '进藏',
+            '向导',
+            '民宿',
+            '团建',
+            '保险',
+            '亲子',
+	    'AA户外',
+            '其它',
     );
+
     public static $campLocationNameArr = array(
-        '北京', '云南', '河北', '江苏', '西藏', '海南', '安徽', '江西', '贵州', '福建', '日本', '美国', '俄罗斯', '加拿大', '南北极', '四川'
+	'北京',
+            '四川',
+            '云南',
+            '贵州',
+            '海南',
+            '安徽',
+            '福建',
+            '江西',
+            '江苏',
+            '浙江',
+            '河北',
+            '内蒙',
+            '山东',
+            '山西',
+            '东北',
+            '西藏',
+            '新疆',
+            '香港',
+            '台湾',
+            '澳门',
+            '日本',
+            '美国',
+            '东南亚',
+            '加拿大',
+            '俄罗斯',
+            '澳新',
+            '南北极',
+            '其它',
     );
     public function getList($where, $page, $pageSize){
         return self::find()
@@ -28,7 +82,7 @@ class Campaign extends ActiveRecord{
     public function getIdByKeyword($keyword){
 	$arrKeyword = Search::find()->where(['fieldName'=>Search::FIELD_KEYWORD])->asArray()->all();
 	foreach($arrKeyword as $val){
-	    if(strpos($keyword, $val['content']) !== false){
+	    if($val['content'] && strpos($keyword, $val['content']) !== false){
 		$arr[$val['campId']]++;
 	    }
 	}

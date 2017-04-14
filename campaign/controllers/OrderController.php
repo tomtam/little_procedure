@@ -42,6 +42,7 @@ class OrderController extends BaseController{
         
         $list = Order::find()
                         ->where($condition)
+			->orderBy(['createTime' => SORT_DESC])
                         ->limit($this->__perNum)
                         ->offset(($page-1) * $this->__perNum)
                         ->asArray()

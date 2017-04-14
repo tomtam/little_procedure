@@ -86,7 +86,7 @@
                 	<?php endif;?>
                 </td>
                 <td>
-                	<a class="i-operate" href="/campaign/update?id=<?php echo $camp['id'];?>" title="更新">更新</a>|
+                	<a class="i-operate" href="/campaign/update?id=<?php echo $camp['id'];?>&page=<?php echo $page;?>&conTitle=<?php echo $title;?>&conBeginTime=<?php echo $beginTime;?>&conEndTime=<?php echo $endTime;?>&conOrigin=<?php echo $origin;?>" title="更新">更新</a>|
                 	<a class="i-operate" href="#" onclick="del(<?php echo $camp['id'];?>)" title="删除">删除</a>
                 </td>
               </tr>

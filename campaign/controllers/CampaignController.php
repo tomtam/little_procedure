@@ -239,7 +239,7 @@ class CampaignController extends BaseController{
                 }
             }
 	    if($campKeyword){
-		$arrCampKeyword = explode(Code::JS_STR_SEPARATOR, $campKeyword);
+		$arrCampKeyword = explode(Code::JS_STR_SEPARATOR, str_replace("，", Code::JS_STR_SEPARATOR, $campKeyword));
 		foreach($arrCampKeyword as $campK){
 		    $model_search = new Search();
 		    $model_search->campId = $result_insert_id;
@@ -331,6 +331,11 @@ class CampaignController extends BaseController{
         $arr_render = array(
             'info' => $info,
             'campTypeArr' => Campaign::$campTypeArr,
+	    'conTitle' => Yii::$app->request->get('conTitle'),
+	    'conBeginTime' => Yii::$app->request->get('conBeginTime'),
+	    'conEndTime' => Yii::$app->request->get('conEndTime'),
+	    'conOrigin' => Yii::$app->request->get('conOrigin'),
+	    'page' => Yii::$app->request->get('page', 1),
         );
         return $this->render("update", $arr_render);
     }
@@ -464,7 +469,7 @@ class CampaignController extends BaseController{
                 }
             }
 	    if($campKeyword){
-		$arrCampKeyword = explode(Code::JS_STR_SEPARATOR, $campKeyword);
+		$arrCampKeyword = explode(Code::JS_STR_SEPARATOR, str_replace("，", Code::JS_STR_SEPARATOR, $campKeyword));
 		Yii::$app->db_camp->createCommand("delete from campaign_search where campId={$id} and fieldName='".Search::FIELD_KEYWORD."'")->execute();
 		foreach($arrCampKeyword as $campK){
 		    $model_search = new Search();
@@ -496,7 +501,7 @@ class CampaignController extends BaseController{
             Yii::info("-----------更新活动报错:------".$message, 'camp');
             return Code::errorExit(Code::ERROR_CAMP_UPDATE);
         }
-        $this->redirect(['campaign/index']);
+        $this->redirect(['campaign/index', 'title'=>Yii::$app->request->post('conTitle'), 'beginTime'=>Yii::$app->request->post('conBeginTime'), 'endTime'=>Yii::$app->request->post('conEndTime'),'origin'=>Yii::$app->request->post('comOrigin'), 'page'=>Yii::$app->request->post('page')]);
         Yii::$app->response->send();
     }
     /**
@@ -579,6 +584,11 @@ class CampaignController extends BaseController{
                 'info' => Code::$arr_code_status[Code::ERROR_CAMP_UPDATE],
             ), JSON_UNESCAPED_UNICODE);
     }
+    public function actionImageDel(){
+	$id = Yii::$app->request->post("id");
+	$res = Content::findOne($id)->delete();
+	return Code::errorExit(Code::SUCC);
+    } 	
     public function afterAction($action, $result){
         exit($result);
     }
