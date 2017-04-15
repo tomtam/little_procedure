@@ -72,7 +72,7 @@ class OrderController extends BaseController{
         return json_encode(array(
             'code' => Code::SUCC,
             'info' => Code::$arr_code_status[Code::SUCC],
-            'data' => $result_insert
+            'data' => Yii::$app->db_camp->getLastInsertID() 
         ), JSON_UNESCAPED_UNICODE);
     }
     /**

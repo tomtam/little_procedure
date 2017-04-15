@@ -19,11 +19,10 @@ class BaseController extends ActiveController{
     * @desc:   判断是否登陆
     */
     protected function getLoginStatus(){
-        if(!Yii::$app->session[User::USER_LOGIN_STATUS_KEY]){
+        if(!is_string(Yii::$app->session[User::USER_LOGIN_STATUS_KEY]) || strlen(Yii::$app->session[User::USER_LOGIN_STATUS_KEY])<20  || !Yii::$app->session[User::USER_LOGIN_STATUS_KEY]){
             Yii::info("---getLoginStatus cookie里无sessionId", 'api');
             exit(Code::errorExit(Code::ERROR_USER_NO_LOGIN));
         }
-
         $this->userId = Yii::$app->session[User::USER_LOGIN_STATUS_KEY];
         return true;
     }
