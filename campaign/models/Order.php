@@ -10,6 +10,8 @@ class Order extends ActiveRecord{
      * @var unknown
      */
     const STATUS_ORDER_PAY_SUCCESS = 1;
+    const STATUS_ORDER_PAY_FAIL = 2;
+    const STATUS_ORDER_PAY_UN = 3;
     /**
      * 活动进行中
      * @var unknown

@@ -8,6 +8,7 @@ use campaign\components\Code;
 use campaign\models\Content;
 use campaign\models\Evaluate;
 use campaign\models\User;
+use campaign\components\WechatPay;
 
 class OrderController extends BaseController{
     public $modelClass = '';
@@ -52,7 +53,7 @@ class OrderController extends BaseController{
             $model_order->campTitle = $campInfo['title'];
             $model_order->createTime = time();
             $model_order->updateTime = time();
-            $model_order->status = Order::STATUS_ORDER_PAY_SUCCESS;
+            $model_order->status = Order::STATUS_ORDER_PAY_UN;
             $result_insert = $model_order->save();
         }catch (\yii\db\IntegrityException $e){
             $message = $e->getMessage()."---".$e->getTraceAsString();
@@ -68,7 +69,41 @@ class OrderController extends BaseController{
             Yii::info("-----------添加订单失败------".$message, 'order');
             return Code::errorExit(Code::ERROR_ORDER_CREATE);
         }
-        return Code::errorExit(Code::SUCC);
+        return json_encode(array(
+            'code' => Code::SUCC,
+            'info' => Code::$arr_code_status[Code::SUCC],
+            'data' => $result_insert
+        ), JSON_UNESCAPED_UNICODE);
+    }
+    /**
+     * 微信支付请求第三方支付
+     */
+    public function actionPay(){
+        $orderId = Yii::$app->request->post('orderId');
+        Yii::info("-----参数的订单id是：".$orderId, 'order');
+        if(!$orderId){
+            return Code::errorExit(Code::ERROR_PARAM_PARTIAL);
+        }
+
+        $orderInfo = Order::findOne(['id'=>$orderId]);
+
+        $notify_url  = "http://www.ioutdoor.org/wap/order/pay-callback";
+
+        $wechatPay = new WechatPay(Yii::$app->params['appId'], $this->userId, Yii::$app->params['mchId'], $notify_url, Yii::$app->params['orderKey']);
+        $params['body'] = '活动购买'; //商品描述
+        $params['out_trade_no'] = $orderId; //自定义的订单号
+        $params['total_fee'] = ($orderInfo['amount'] * 100); //订单金额 只能为整数 单位为分
+        $params['trade_type'] = 'MWEB'; //交易类型 JSAPI | NATIVE | APP | WAP
+        $result = $wechatPay->unifiedOrder( $params );
+        //Yii::info("-----下单信息返回：".print_r($result, true), "order");
+        return json_encode(array(
+            'code' => Code::SUCC,
+            'info' => Code::$arr_code_status[Code::SUCC],
+            'data' => $result
+        ), JSON_UNESCAPED_UNICODE);
+    }
+    public function actionPayCallback(){
+        Yii::info("------wap callback 回调的参数：". json_encode($_REQUEST, JSON_UNESCAPED_UNICODE), "order");
     }
     /**
     * @date: 2017年1月21日 下午4:41:23
