@@ -93,6 +93,16 @@ return [
                 'maxFileSize' => 1024,
                 'maxLogFiles' => 20,
                 ],
+                [
+                    'class' => 'common\components\FileTarget',
+                    'levels' => ['info'],
+                    'categories' => ['user'],
+                    'enableDatePrefix' => true,
+                    'logFile' => '@app/runtime/logs/user_info.log',
+                    'logVars' => [''],
+                    'maxFileSize' => 1024,
+                    'maxLogFiles' => 20,
+                ],
             ],
         ],
         'errorHandler' => [
