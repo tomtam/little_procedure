@@ -91,9 +91,8 @@ class OrderController extends BaseController{
         $userId = $this->userId;
         $page   = Yii::$app->request->post('page', 1);
 
-        $condition = ['and'];
-        $condition[] = ['userId' => $userId];
-        $condition[] = ['status', array(Order::STATUS_ORDER_PAY_SUCCESS, Order::STATUS_ORDER_CAMP_ING, Order::STATUS_ORDER_CAMP_OVER)];
+        $condition['userId'] = $userId;
+        $condition['status'] = array(Order::STATUS_ORDER_PAY_SUCCESS, Order::STATUS_ORDER_CAMP_ING, Order::STATUS_ORDER_CAMP_OVER);
         
         $list = Order::find()
                         ->where($condition)
