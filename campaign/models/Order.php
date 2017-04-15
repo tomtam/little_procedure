@@ -10,8 +10,8 @@ class Order extends ActiveRecord{
      * @var unknown
      */
     const STATUS_ORDER_PAY_SUCCESS = 1;
-    const STATUS_ORDER_PAY_FAIL = 2;
-    const STATUS_ORDER_PAY_UN = 3;
+    const STATUS_ORDER_PAY_FAIL = 4;
+    const STATUS_ORDER_PAY_UN = 5;
     /**
      * 活动进行中
      * @var unknown
@@ -25,6 +25,8 @@ class Order extends ActiveRecord{
     
     static $arr_order_status = array(
         self::STATUS_ORDER_PAY_SUCCESS => '付款成功',
+        self::STATUS_ORDER_PAY_UN => '未付款',
+        self::STATUS_ORDER_PAY_FAIL => '付款失败',
         self::STATUS_ORDER_CAMP_ING    => '活动进行中',
         self::STATUS_ORDER_CAMP_OVER   => '活动已结束',
     );

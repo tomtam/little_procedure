@@ -58,7 +58,7 @@ class OrderController extends BaseController{
             $model_order->campTitle = $campInfo['title'];
             $model_order->createTime = time();
             $model_order->updateTime = time();
-            $model_order->status = Order::STATUS_ORDER_PAY_SUCCESS;
+            $model_order->status = Order::STATUS_ORDER_PAY_UN;
             $result_insert = $model_order->save();
         }catch (\yii\db\IntegrityException $e){
             $message = $e->getMessage()."---".$e->getTraceAsString();
@@ -90,8 +90,10 @@ class OrderController extends BaseController{
     public function actionList(){
         $userId = $this->userId;
         $page   = Yii::$app->request->post('page', 1);
-        
-        $condition = ['userId' => $userId];
+
+        $condition = ['and'];
+        $condition[] = ['userId' => $userId];
+        $condition[] = ['status', array(Order::STATUS_ORDER_PAY_SUCCESS, Order::STATUS_ORDER_CAMP_ING, Order::STATUS_ORDER_CAMP_OVER)];
         
         $list = Order::find()
                         ->where($condition)
@@ -240,6 +242,13 @@ class OrderController extends BaseController{
             $string = implode("&",$array);
         }
         return $string;
+    }
+    public function actionPaySuccess(){
+        $orderId = Yii::$app->request->post("orderId");
+        $model = Order::findOne($orderId);
+        $model->status = Order::STATUS_ORDER_PAY_SUCCESS;
+        $model->save();
+        return Code::errorExit(Code::SUCC);
     }
     public function actionDel(){
         $orderId = Yii::$app->request->post("orderId");
