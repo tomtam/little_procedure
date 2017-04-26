@@ -206,11 +206,11 @@ class OrderController extends BaseController{
      * 获得加密参数
      */
     public function actionSign(){
-        $params['timeStamp'] = Yii::$app->request->post("timeStamp");
-        $params['nonceStr'] = Yii::$app->request->post('nonceStr');
-        $params['package']  = Yii::$app->request->post("package");
-        $params['signType'] = Yii::$app->request->post("signType");
-        $params['appId'] = Yii::$app->request->post("appId");
+        $params['timeStamp'] = time();
+        $params['nonceStr'] = $this->genRandomString();
+        $params['package']  = "prepay_id=".Yii::$app->request->post("prepay_id");
+        $params['signType'] = "MD5";
+        $params['appId'] = Yii::$app->params['appId'];
 
         ksort($params);
 
@@ -221,22 +221,46 @@ class OrderController extends BaseController{
         $string = md5($string);
         //签名步骤四：所有字符转为大写
         $result = strtoupper($string);
+        $params['paySign'] = $result;
         return json_encode(array(
             'code' => Code::SUCC,
             'info' => Code::$arr_code_status[Code::SUCC],
-            'data' => $result,
+            'data' => $params,
         ), JSON_UNESCAPED_UNICODE);
+    }
+    /**
+     * 产生一个指定长度的随机字符串,并返回给用户
+     * @param type $len 产生字符串的长度
+     * @return string 随机字符串
+     */
+    private function genRandomString($len = 32) {
+        $chars = array(
+            "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k",
+            "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v",
+            "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G",
+            "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
+            "S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2",
+            "3", "4", "5", "6", "7", "8", "9"
+        );
+        $charsLen = count($chars) - 1;
+        // 将数组打乱
+        shuffle($chars);
+        $output = "";
+        for ($i = 0; $i < $len; $i++) {
+            $output .= $chars[mt_rand(0, $charsLen)];
+        }
+        return $output;
     }
     private function ToUrlParams( $params ){
         $string = '';
         if( !empty($params) ){
             $array = array();
             foreach( $params as $key => $value ){
-		if($key == 'package'){
-			$array[] = $key.'='.$value.'';
-		}else{
-               		$array[] = $key.'='.$value;
-		}		
+        		if($key == 'package'){
+        			$array[] = $key.'='.$value.'';
+        		}else{
+                       		$array[] = $key.'='.$value;
+        		}		
             }
             $string = implode("&",$array);
         }
