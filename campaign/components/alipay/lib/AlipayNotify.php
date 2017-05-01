@@ -1,4 +1,5 @@
 <?php
+namespace campaign\components\alipay\lib;
 /* *
  * 类名：AlipayNotify
  * 功能：支付宝通知处理类
