@@ -59,6 +59,7 @@ class alipayapi
 
     public function getPage(){
         //构造要请求的参数数组，无需改动
+	require_once("/home/wwwroot/little_procedure/campaign/components/alipay/alipay.config.php");
         $parameter = array(
             "service"       => $alipay_config['service'],
             "partner"       => $alipay_config['partner'],
@@ -77,7 +78,6 @@ class alipayapi
             //如"参数名"    => "参数值"   注：上一个参数末尾需要“,”逗号。
         
         );
-	require_once("/home/wwwroot/little_procedure/campaign/components/alipay/alipay.config.php");
         //建立请求
         $alipaySubmit = new AlipaySubmit($alipay_config);
         $html_text = $alipaySubmit->buildRequestForm($parameter,"get", "确认");

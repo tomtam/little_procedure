@@ -57,7 +57,6 @@ class AlipaySubmit {
 	function buildRequestPara($para_temp) {
 		//除去待签名参数数组中的空值和签名参数
 		$para_filter = paraFilter($para_temp);
-
 		//对待签名参数数组排序
 		$para_sort = argSort($para_filter);
 

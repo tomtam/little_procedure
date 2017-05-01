@@ -229,7 +229,7 @@ class PayController extends BaseController{
                             sNow += String(vNow.getMilliseconds());
                             document.getElementById("WIDout_trade_no").value =  "'.$orderId.'";
                             document.getElementById("WIDsubject").value = "'.$orderInfo['campTitle'].'";
-                            document.getElementById("WIDtotal_fee").value = "'.$orderInfo['amount'].'";
+                            document.getElementById("WIDtotal_fee").value = "0.1";
                         }
                         GetDateNow();
                     </script>
@@ -260,12 +260,15 @@ class PayController extends BaseController{
 
     public function actionNotify()
     {
-
+	Yii::info("notify 回调信息".json_encode(Yii::$app->request->post()), 'order');
+	Yii::info("notify 回调信息".json_encode(Yii::$app->request->get()), 'order');
     }
 
     public function actionReturn()
     {
-
+	Yii::info("return 信息".json_encode(Yii::$app->request->post()), 'order');
+	Yii::info("return 信息".json_encode(Yii::$app->request->post()), 'order');
+	
     }
 
     public function afterAction($action, $result)
