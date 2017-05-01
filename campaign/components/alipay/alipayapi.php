@@ -1,4 +1,3 @@
-
 <?php
 namespace campaign\components\alipay;
 /* *
@@ -16,9 +15,6 @@ namespace campaign\components\alipay;
  *3、支持中心（https://support.open.alipay.com/alipay/support/index.htm）
  * 如果不想使用扩展功能请把扩展功能参数赋空值。
  */
-
-require_once("alipay.config.php");
-require_once("lib/alipay_submit.class.php");
 
 /**************************请求参数**************************/
 
@@ -79,13 +75,12 @@ class alipayapi
             //如"参数名"    => "参数值"   注：上一个参数末尾需要“,”逗号。
         
         );
+	require_once("/home/wwwroot/little_procedure/campaign/components/alipay/alipay.config.php");
+	require_once("/home/wwwroot/little_procedure/campaign/components/alipay/lib/alipay_submit.class.php");
         //建立请求
         $alipaySubmit = new AlipaySubmit($alipay_config);
         $html_text = $alipaySubmit->buildRequestForm($parameter,"get", "确认");
         return $html_text;
     }
 
-
-
-
-?>
+}
