@@ -264,10 +264,8 @@ class PayController extends BaseController{
 	Yii::info("notify 回调信息".json_encode(Yii::$app->request->get()), 'order');
     }
 
-    public function actionReturn()
+    public function actionReturnPage()
     {
-	Yii::info("return 信息".json_encode(Yii::$app->request->post()), 'order');
-	Yii::info("return 信息".json_encode(Yii::$app->request->post()), 'order');
 	
     }
 
