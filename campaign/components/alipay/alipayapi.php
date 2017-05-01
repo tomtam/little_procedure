@@ -1,5 +1,7 @@
 <?php
 namespace campaign\components\alipay;
+
+use  campaign\components\alipay\lib\AlipaySubmit;
 /* *
  * 功能：手机网站支付接口接入页
  * 版本：3.3
@@ -76,7 +78,6 @@ class alipayapi
         
         );
 	require_once("/home/wwwroot/little_procedure/campaign/components/alipay/alipay.config.php");
-	require_once("/home/wwwroot/little_procedure/campaign/components/alipay/lib/alipay_submit.class.php");
         //建立请求
         $alipaySubmit = new AlipaySubmit($alipay_config);
         $html_text = $alipaySubmit->buildRequestForm($parameter,"get", "确认");

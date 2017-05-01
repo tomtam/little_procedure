@@ -1,4 +1,5 @@
 <?php
+namespace campaign\components\alipay\lib;
 /* *
  * 类名：AlipaySubmit
  * 功能：支付宝各接口请求提交类
