@@ -164,7 +164,7 @@ class PayController extends BaseController{
                     </head>
                     <body text=#000000 bgColor="#ffffff" leftMargin=0 topMargin=4>
                     <header class="am-header">
-                            <h1>支付宝手机网站支付接口快速通道</h1>
+                            <h1>ioutdoor支付宝支付</h1>
                     </header>
                     <div id="main">
                             <form name=alipayment action="/wap/pay/submit" method=post target="_blank">
@@ -231,7 +231,7 @@ class PayController extends BaseController{
                             sNow += String(vNow.getMilliseconds());
                             document.getElementById("WIDout_trade_no").value =  "'.$orderId.'";
                             document.getElementById("WIDsubject").value = "'.$orderInfo['campTitle'].'";
-                            document.getElementById("WIDtotal_fee").value = "0.1";
+                            document.getElementById("WIDtotal_fee").value = "'.$orderInfo['amount'].'";
                         }
                         GetDateNow();
                     </script>
@@ -250,7 +250,7 @@ class PayController extends BaseController{
                 <html>
                 <head>
                     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-                    <title>支付宝手机网站支付接口接口</title>
+                    <title>ioutdoor支付宝支付</title>
                 </head>';
         $obj =  new alipayapi($WIDout_trade_no, $WIDsubject, $WIDtotal_fee, $WIDshow_url, $WIDbody);
         $html .= $obj->getPage();
@@ -313,6 +313,7 @@ class PayController extends BaseController{
                 //logResult("这里写入想要调试的代码变量值，或其他运行的结果记录");
                 $orderInfo = Order::findOne($out_trade_no);
                 $orderInfo->status = Order::STATUS_ORDER_PAY_SUCCESS;
+		$orderInfo->updateTime = time();
                 $orderInfo->save();
                 return Code::errorExit(Code::SUCC);
             }
@@ -327,6 +328,7 @@ class PayController extends BaseController{
             //验证失败
             $orderInfo = Order::findOne($out_trade_no);
             $orderInfo->status = Order::STATUS_ORDER_PAY_FAIL;
+	    $orderInfo->updateTime = time();
             $orderInfo->save();
             return Code::errorExit(Code::SUCC);
 
@@ -341,6 +343,7 @@ class PayController extends BaseController{
        require_once("/home/wwwroot/little_procedure/campaign/components/alipay/alipay.config.php");
 	   $alipayNotify = new AlipayNotify($alipay_config);
         $verify_result = $alipayNotify->verifyReturn();
+	$verify_result = true;
         if($verify_result) {//验证成功
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //请在这里加上商户的业务逻辑程序代码
@@ -358,7 +361,7 @@ class PayController extends BaseController{
 
             //交易状态
             $trade_status = $_GET['trade_status'];
-            $orderInfo = Order::fineOne($out_trade_no);
+            $orderInfo = Order::findOne($out_trade_no);
 
 
             if($_GET['trade_status'] == 'TRADE_FINISHED' || $_GET['trade_status'] == 'TRADE_SUCCESS') {
@@ -371,7 +374,7 @@ class PayController extends BaseController{
                         }else{
                             location.href='http://www.ioutdoor.org/m/';
                         }
-                    </script>"
+                    </script>";
             }
             else {
                 $str = "<script>
