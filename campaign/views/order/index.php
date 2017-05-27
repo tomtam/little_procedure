@@ -59,6 +59,7 @@
                 	数 量：<?php echo $order['num'];?></br>
                 	总 价：<?php echo $order['amount']?>元</br>
                 	评 价：<?php echo $order['evaluateStatus'] ? $order['evaluateCount'] : "未评价";?></br>
+			用 户：<?php echo $order['orderUserInfo'];?>
                 </td>
                 <td>
                 	<?php echo $order['status'];?>

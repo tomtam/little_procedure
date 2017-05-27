@@ -53,6 +53,12 @@ class OrderController extends BaseController{
             $list[$key]['price'] = $campInfo['price'];
             $list[$key]['evaluateCount'] = Evaluate::find()->where(['orderId'=>$order['id']])->count();
             $list[$key]['status'] = Order::$arr_order_status[Order::processStatus($campInfo)];
+	    $order_user_info = json_decode($order['mark'], true);
+	    $orderUserInfo = "";
+	    foreach($order_user_info as $user_info){
+		$orderUserInfo .= "用户名：".$user_info['userName']."  电话：".$user_info['phone']." | ";
+	    }
+	    $list[$key]['orderUserInfo'] = trim($orderUserInfo, " | ");
         }
         
         $count = Order::find()
