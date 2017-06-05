@@ -56,7 +56,7 @@ class OrderController extends BaseController{
 	    $order_user_info = json_decode($order['mark'], true);
 	    $orderUserInfo = "";
 	    foreach($order_user_info as $user_info){
-		$orderUserInfo .= "用户名：".$user_info['userName']."  电话：".$user_info['phone']." | ";
+		$orderUserInfo .= "用户名：".$user_info['userName']."  电话：".$user_info['phone']." 留言：" .$user_info['mark']. " | ";
 	    }
 	    $list[$key]['orderUserInfo'] = trim($orderUserInfo, " | ");
         }

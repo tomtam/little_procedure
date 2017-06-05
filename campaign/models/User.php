@@ -7,7 +7,7 @@ use yii\db\ActiveRecord;
 class User extends ActiveRecord{
     const USER_ADMIN_USERNAME = "admin";
     
-    const USER_ADMIN_PASSWORD = "123456";
+    const USER_ADMIN_PASSWORD = "li450611fuxing";
     
     const USER_LOGIN_STATUS_KEY = "user_login_status";
     
