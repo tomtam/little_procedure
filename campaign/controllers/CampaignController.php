@@ -82,7 +82,7 @@ class CampaignController extends BaseController{
         $themeArr = Theme::find()
                             ->select(['id', 'title'])
                             ->where(['isDel' => Code::NOT_DEL_STATUS])
-                            ->orderBy(['createTime'=>SORT_DESC])
+                            ->orderBy(['updateTime'=>SORT_DESC])
                             ->asArray()
                             ->all();
         
