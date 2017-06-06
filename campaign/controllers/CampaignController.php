@@ -82,7 +82,7 @@ class CampaignController extends BaseController{
         $themeArr = Theme::find()
                             ->select(['id', 'title'])
                             ->where(['isDel' => Code::NOT_DEL_STATUS])
-                            ->orderBy(['updateTime'=>SORT_DESC])
+                            ->orderBy(['createTime'=>SORT_DESC])
                             ->asArray()
                             ->all();
         
@@ -421,6 +421,7 @@ class CampaignController extends BaseController{
             $model_camp->dayNum      = $dayNum;
             $model_camp->campType    = $campType;
             $model_camp->locationName= $locationName;
+	    $model_camp->updateTime = date("Y-m-d H:i:s");
             $result_update = $model_camp->save();
             
             if(isset($imgArr) && count($imgArr)){
